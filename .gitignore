@@ -1,0 +1,11 @@
+ 
+# JetBrains Rider
+.idea/
+
+# .NET Build
+bin/
+obj/
+
+# User secrets
+appsettings.Development.json
+appsettings.Production.json
