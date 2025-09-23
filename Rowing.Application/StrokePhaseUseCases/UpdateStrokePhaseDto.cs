@@ -1,4 +1,5 @@
 namespace Rowing.Application.StrokePhase;
+using Rowing.Domain.Entities;
 
 public class UpdateStrokePhaseDto
 {

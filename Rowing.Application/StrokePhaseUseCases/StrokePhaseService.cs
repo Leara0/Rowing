@@ -24,4 +24,12 @@ public class StrokePhaseService :IStrokePhaseService
         // map entity to DTO and return
         return domainEntity == null ? null : new StrokePhaseDto(domainEntity);
     }
+
+    public async Task<UpdateStrokePhaseDto?> UpdateKeyFocus(int id, string model)
+    {
+        //call the repo with the update information
+        var domainEntity = await _strokePhaseRepo.UpdateKeyFocus(id, model);
+        //map the domain entity to the Dto
+        return domainEntity == null ? null : new UpdateStrokePhaseDto {KeyFocus = domainEntity.KeyFocus};
+    }
 }
