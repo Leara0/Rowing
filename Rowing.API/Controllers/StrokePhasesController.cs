@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Rowing.Domain.Entities;
+using Rowing.Application.StrokePhase;
 
 namespace Rowing.API.Controllers;
 
@@ -7,20 +7,24 @@ namespace Rowing.API.Controllers;
 [Route("api/[controller]")]
 public class StrokePhasesController : ControllerBase
 {
-    [HttpGet]
-    public IEnumerable<StrokePhase> GetAll()
-    {
-        return new List<StrokePhase>
-        {
-            new() { Id = 1, Name = "Catch", KeyFocus = "Blade entry" },
-            new() { Id = 2, Name = "Drive", KeyFocus = "Power application" }
-        };
+    private readonly IStrokePhaseService _strokeService;
 
+    public StrokePhasesController(IStrokePhaseService strokeService)
+    {
+        _strokeService = strokeService;
+    }
+    
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<StrokePhaseDto>>> GetAll()
+    {
+        var result = await _strokeService.GetAllStrokePhasesAsync();
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public StrokePhase GetById(int id)
+    public async Task<ActionResult<StrokePhaseDto>> GetById(int id)
     {
-        return new StrokePhase {Id = id, Name = "Finish", KeyFocus = "Clean exit" };
+        var result =  await _strokeService.GetStrokePhaseById(id);
+        return result == null ? NotFound() : Ok(result);
     }
 }

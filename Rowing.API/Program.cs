@@ -1,3 +1,8 @@
+using Rowing.Application.Interfaces;
+using Rowing.Application.StrokePhase;
+using Rowing.Infrastructure.Connection;
+using Rowing.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+//add database connection factory 
+builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
+    new MySqlConnectionFactory(builder.Configuration.GetConnectionString("rowing")));
+
+//repository registration
+builder.Services.AddScoped<IStrokePhaseRepository, StrokePhaseRepository>();
+builder.Services.AddScoped<IStrokePhaseService, StrokePhaseService>();
 
 var app = builder.Build();
 
