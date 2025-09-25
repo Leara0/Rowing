@@ -11,4 +11,9 @@ public class InjuryPreventionService :IInjuryPreventionService
         _injuryRepo = injuryRepo;
     }
 
+    public async Task<IEnumerable<InjuryPreventionDto>> GetAllInjuryPreventionsAsync()
+    {
+        var domainEntity = await _injuryRepo.GetAllInjuryPreventionsAsync();
+        return domainEntity.Select(x => new InjuryPreventionDto(x));
+    }
 }

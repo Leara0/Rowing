@@ -18,8 +18,13 @@ public class InjuryPreventionController : ControllerBase
     }
     
     [HttpGet]
-    public async void Index()
+    public async Task<ActionResult<IEnumerable<InjuryPreventionDto>>> GetAll()
     {
-        
+        _logger.LogInformation("Getting all injury preventions");
+        var result = await _preventionService.GetAllInjuryPreventionsAsync();
+        return Ok(result);
+        //call service layer to get all injury prevention datas
+        //SL calls repo to get all data
+
     }
 }

@@ -27,6 +27,7 @@ public class StrokePhasesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<StrokePhaseDto>> GetById(int id)
     {
+        _logger.LogInformation("getting stroke phase by id");
         var result =  await _strokeService.GetStrokePhaseById(id);
         return result == null ? NotFound() : Ok(result);
     }
@@ -37,6 +38,10 @@ public class StrokePhasesController : ControllerBase
         try
         {
             var result = await _strokeService.UpdateKeyFocus(id, strokeDto.KeyFocus);
+            if (result == null)
+                _logger.LogError("There is no stroke phase with id {0}", id);
+            else
+                _logger.LogInformation("Updated key focus for stroke phase with id {0}", id);
             return result == null ? NotFound() : Ok(result);
         }
         catch (Exception ex)

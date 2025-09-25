@@ -20,7 +20,7 @@ public class StrokePhaseService :IStrokePhaseService
     public async Task<StrokePhaseDto?> GetStrokePhaseById(int id)
     {
         //get specific StrokePhase from the Db
-        var domainEntity = await _strokePhaseRepo.GetStrokePhaseById(id);
+        var domainEntity = await _strokePhaseRepo.GetStrokePhaseByIdAsync(id);
         // map entity to DTO and return
         return domainEntity == null ? null : new StrokePhaseDto(domainEntity);
     }
@@ -28,7 +28,7 @@ public class StrokePhaseService :IStrokePhaseService
     public async Task<UpdateStrokePhaseDto?> UpdateKeyFocus(int id, string model)
     {
         //call the repo with the update information
-        var domainEntity = await _strokePhaseRepo.UpdateKeyFocus(id, model);
+        var domainEntity = await _strokePhaseRepo.UpdateKeyFocusAsync(id, model);
         //map the domain entity to the Dto
         return domainEntity == null ? null : new UpdateStrokePhaseDto {KeyFocus = domainEntity.KeyFocus};
     }

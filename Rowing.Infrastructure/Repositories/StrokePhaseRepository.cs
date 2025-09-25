@@ -26,7 +26,7 @@ public class StrokePhaseRepository : IStrokePhaseRepository
         return resultsDbModel.Select(x => MapToDomain(x));
     }
 
-    public async Task<StrokePhase?> GetStrokePhaseById(int id)
+    public async Task<StrokePhase?> GetStrokePhaseByIdAsync(int id)
     {
         using var conn = _connectionFactory.CreateConnection();
         var resultDbModel = await conn
@@ -39,7 +39,7 @@ public class StrokePhaseRepository : IStrokePhaseRepository
         return MapToDomain(resultDbModel);
     }
 
-    public async Task<StrokePhase?> UpdateKeyFocus(int id, string keyFocus)
+    public async Task<StrokePhase?> UpdateKeyFocusAsync(int id, string keyFocus)
     {
         try //use try catch to catch database errors
         { 

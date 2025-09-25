@@ -1,3 +1,5 @@
+using Rowing.Domain.Entities;
+
 namespace Rowing.Application.InjuryPreventionUseCases;
 
 public class InjuryPreventionDto
@@ -11,4 +13,17 @@ public class InjuryPreventionDto
     public bool IsVerified { get; set; }
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; }
+
+    public InjuryPreventionDto(InjuryPrevention model)
+    {
+        PreventionId = model.Id;
+        BodyArea = model.BodyArea;
+        InjuryType = model.InjuryType;
+        PreventionStrategy = model.PreventionStrategy;
+        StrengtheningExercises = model.StrengtheningExercises;
+        RiskPhaseName = model.RiskPhaseName;
+        IsVerified = model.IsVerified;
+        CreatedAt = model.CreatedAt;
+        CreatedBy = model.CreatedBy;
+    }
 }

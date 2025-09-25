@@ -1,6 +1,6 @@
 namespace Rowing.Application.InjuryPreventionUseCases;
 
-public class IInjuryPreventionService
+public interface IInjuryPreventionService
 {
-    
+    public Task<IEnumerable<InjuryPreventionDto>> GetAllInjuryPreventionsAsync();
 }

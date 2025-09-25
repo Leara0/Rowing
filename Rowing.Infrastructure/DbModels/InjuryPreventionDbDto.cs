@@ -6,6 +6,7 @@ public class InjuryPreventionDbDto
     public string body_area { get; set; }
     public string injury_type { get; set; }
     public string prevention_strategy { get; set; }
+    public string strengthening_exercises { get; set; }
     public string risk_phase_name { get; set; }
     public bool is_verified { get; set; }
     public DateTime created_at { get; set; }
