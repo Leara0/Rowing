@@ -1,3 +1,4 @@
+using Rowing.Application.InjuryPreventionUseCases;
 using Rowing.Application.Interfaces;
 using Rowing.Application.StrokePhase;
 using Rowing.Infrastructure.Connection;
@@ -18,6 +19,8 @@ builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
 //repository registration
 builder.Services.AddScoped<IStrokePhaseRepository, StrokePhaseRepository>();
 builder.Services.AddScoped<IStrokePhaseService, StrokePhaseService>();
+builder.Services.AddScoped<IInjuryPreventionRepository, InjuryPreventionRepository>();
+builder.Services.AddScoped<IInjuryPreventionService, InjuryPreventionService>();
 
 var app = builder.Build();
 
