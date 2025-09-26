@@ -27,4 +27,12 @@ public class InjuryPreventionController : ControllerBase
         //SL calls repo to get all data
 
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<InjuryPreventionDto>> GetById(int id)
+    {
+        _logger.LogInformation("Getting injury prevention by id {0}", id);
+        var result = await _preventionService.GetInjuryPreventionByIdAsync(id);
+        return result == null ? NotFound() : Ok(result);
+    }
 }

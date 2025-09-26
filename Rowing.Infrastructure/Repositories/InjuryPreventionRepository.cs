@@ -27,6 +27,19 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
         return preventionDbModel.Select(x => MapToDomain(x));
     }
 
+    public async Task<InjuryPrevention?> GetInjuryPreventionByIdAsync(int id)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+
+        var sql = @"SELECT ip.*, sp.name AS risk_phase_name
+            FROM injury_prevention AS ip
+            INNER JOIN stroke_phases AS sp ON ip.critical_phase_id = sp.phase_id
+            WHERE ip.prevention_id = @id";
+
+        var preventionDbModel = await conn.QuerySingleOrDefaultAsync<InjuryPreventionDbDto>(sql, new { id });
+        return preventionDbModel == null? null : MapToDomain(preventionDbModel);
+    }
+
     public InjuryPrevention MapToDomain(InjuryPreventionDbDto model)
     {
         return new InjuryPrevention
