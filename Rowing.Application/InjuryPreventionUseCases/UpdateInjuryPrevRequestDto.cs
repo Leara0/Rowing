@@ -4,7 +4,7 @@ using Rowing.Domain.Entities;
 
 namespace Rowing.Application.InjuryPreventionUseCases;
 
-public class UpdateInjuryPreventionDto
+public class UpdateInjuryPrevRequestDto
 {
     [Required]
     [StringLength(50)]
@@ -17,9 +17,9 @@ public class UpdateInjuryPreventionDto
     public string StrengtheningExercises { get; set; }
     public StrokePhaseWrapperDto RiskPhase { get; set; }
 
-    public UpdateInjuryPreventionDto() { }
+    public UpdateInjuryPrevRequestDto() { }
 
-    public UpdateInjuryPreventionDto(InjuryPrevention model)
+    public UpdateInjuryPrevRequestDto(InjuryPrevention model)
     {
         BodyArea = model.BodyArea;
         InjuryType = model.InjuryType;

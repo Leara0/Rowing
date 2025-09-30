@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Rowing.Application.InjuryPreventionUseCases;
 using Rowing.Application.Interfaces;
 using Rowing.Application.StrokePhase;
@@ -21,6 +22,12 @@ builder.Services.AddScoped<IStrokePhaseRepository, StrokePhaseRepository>();
 builder.Services.AddScoped<IStrokePhaseService, StrokePhaseService>();
 builder.Services.AddScoped<IInjuryPreventionRepository, InjuryPreventionRepository>();
 builder.Services.AddScoped<IInjuryPreventionService, InjuryPreventionService>();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 var app = builder.Build();
 

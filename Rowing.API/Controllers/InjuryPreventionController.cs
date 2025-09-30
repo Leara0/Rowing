@@ -37,11 +37,16 @@ public class InjuryPreventionController : ControllerBase
     }
 
     [HttpGet("{id}/edit")]
-    public async Task<ActionResult<UpdateInjuryPreventionDto>> GetInjuryPreventionForEdit(int id)
+    public async Task<ActionResult<UpdateInjuryPrevRequestDto>> GetInjuryPreventionForEdit(int id)
     {
         _logger.LogInformation("Getting injury prevention by id {id}", id);
         var result = await _preventionService.GetInjuryPreventionForEditAsync(id);
         return result == null ? NotFound() : Ok(result);
-        
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<UpdateInjuryPrevResponseDto>> UpdateInjuryPrevention(int id, UpdateInjuryPrevResponseDto dto)
+    {
+        throw new NotImplementedException();
     }
 }

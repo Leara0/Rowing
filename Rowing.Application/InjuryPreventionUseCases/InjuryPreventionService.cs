@@ -29,12 +29,12 @@ public class InjuryPreventionService :IInjuryPreventionService
         return domainEntity == null ? null : new InjuryPreventionDto(domainEntity);
     }
 
-    public async Task<UpdateInjuryPreventionDto?> GetInjuryPreventionForEditAsync(int id)
+    public async Task<UpdateInjuryPrevRequestDto?> GetInjuryPreventionForEditAsync(int id)
     {
         var domainEntity = await _injuryRepo.GetInjuryPreventionByIdAsync(id);
         if (domainEntity == null)
             return null;
-        var dto = new UpdateInjuryPreventionDto(domainEntity);
+        var dto = new UpdateInjuryPrevRequestDto(domainEntity);
 
         try
         {
