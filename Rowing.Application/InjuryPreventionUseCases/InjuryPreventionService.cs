@@ -1,6 +1,7 @@
 using Rowing.Application.DTOs;
 using Rowing.Application.Interfaces;
 using Microsoft.Extensions.Logging;
+using Rowing.Domain.Entities;
 
 namespace Rowing.Application.InjuryPreventionUseCases;
 
@@ -36,7 +37,7 @@ public class InjuryPreventionService :IInjuryPreventionService
             return null;
         var dto = new UpdateInjuryPrevRequestDto(domainEntity);
 
-        try
+        try//this block checks the RiskPhaseName to ensure it is a member of the StrokePhase enum
         {
             dto.RiskPhase = new StrokePhaseWrapperDto
             {
@@ -54,5 +55,29 @@ public class InjuryPreventionService :IInjuryPreventionService
         }
         
         return dto;
+    }
+
+    public async Task UpdateInjuryPreventionAsync(int id, UpdateInjuryPrevResponseDto dto)
+    {
+       
+            //fetch domain entity and set hidden fields
+            var domainEntity = await _injuryRepo.GetInjuryPreventionByIdAsync(id);
+            if (domainEntity == null)
+            {
+                _logger.LogError("Invalid injury prevention id {id}. No records were updated", id);
+                return;
+            }
+            domainEntity.IsVerified = false;
+            domainEntity.BodyArea = dto.BodyArea;
+            domainEntity.InjuryType = dto.InjuryType;
+            domainEntity.PreventionStrategy = dto.PreventionStrategy;
+            domainEntity.StrengtheningExercises = dto.StrengtheningExercises;
+            domainEntity.CriticalPhaseId = (int)dto.RiskPhase.Selected;
+            
+        //send this to the repository to overwrite the current record
+        
+        
+        //get a number from enum
+        throw new NotImplementedException();
     }
 }

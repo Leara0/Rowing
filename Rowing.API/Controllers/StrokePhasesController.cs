@@ -35,7 +35,7 @@ public class StrokePhasesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<StrokePhaseDto>> Update(int id, UpdateStrokePhaseDto strokeDto)
     {
-        try
+        try 
         {
             var result = await _strokeService.UpdateKeyFocus(id, strokeDto.KeyFocus);
             if (result == null) // this handles if there is no record for this id

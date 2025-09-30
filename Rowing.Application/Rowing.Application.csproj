@@ -14,4 +14,16 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="InjuryPreventionUseCases\InjuryPreventionDto.cs">
+        <DependentUpon>DTOs.cs</DependentUpon>
+      </Compile>
+      <Compile Update="InjuryPreventionUseCases\UpdateInjuryPrevRequestDto.cs">
+        <DependentUpon>DTOs.cs</DependentUpon>
+      </Compile>
+      <Compile Update="InjuryPreventionUseCases\UpdateInjuryPrevResponseDto.cs">
+        <DependentUpon>DTOs.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

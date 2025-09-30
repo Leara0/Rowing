@@ -49,6 +49,7 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
             InjuryType = model.injury_type,
             PreventionStrategy = model.prevention_strategy,
             StrengtheningExercises = model.strengthening_exercises,
+            CriticalPhaseId = model.critical_phase_id,
             RiskPhaseName = model.risk_phase_name,
             IsVerified = model.is_verified,
             CreatedAt = model.created_at,

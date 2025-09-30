@@ -45,8 +45,13 @@ public class InjuryPreventionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<UpdateInjuryPrevResponseDto>> UpdateInjuryPrevention(int id, UpdateInjuryPrevResponseDto dto)
+    public async Task<ActionResult<UpdateInjuryPrevResponseDto>> UpdateInjuryPrevention(int id, 
+        UpdateInjuryPrevResponseDto dto)
     {
+        //check if the data is valid
+        //send the dto to the service layer
+        //parse the stroke phase out of the enum and then GET THE NUMBER BACK
+        //send it to the repository to record
         throw new NotImplementedException();
     }
 }

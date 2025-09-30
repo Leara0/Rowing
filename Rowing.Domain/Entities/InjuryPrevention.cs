@@ -14,6 +14,7 @@ public class InjuryPrevention
     [Required]
     public string PreventionStrategy { get; set; }
     public string StrengtheningExercises { get; set; }
+    public int CriticalPhaseId { get; set; }
     public string RiskPhaseName { get; set; }
     public bool IsVerified { get; set; }
     public DateTime CreatedAt { get; set; }
