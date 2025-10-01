@@ -21,7 +21,8 @@ builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
 builder.Services.AddScoped<IStrokePhaseRepository, StrokePhaseRepository>();
 builder.Services.AddScoped<IStrokePhaseService, StrokePhaseService>();
 builder.Services.AddScoped<IInjuryPreventionRepository, InjuryPreventionRepository>();
-builder.Services.AddScoped<IInjuryPreventionService, InjuryPreventionService>();
+builder.Services.AddScoped<IInjuryPreventionCommandService, InjuryPreventionCommandService>();
+builder.Services.AddScoped<IInjuryPreventionQueryService, InjuryPreventionQueryService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

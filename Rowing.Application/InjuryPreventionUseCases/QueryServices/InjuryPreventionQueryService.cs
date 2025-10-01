@@ -1,21 +1,17 @@
-using System.Globalization;
+using Microsoft.Extensions.Logging;
 using Rowing.Application.DTOs;
 using Rowing.Application.Interfaces;
-using Microsoft.Extensions.Logging;
-using Rowing.Application.Exceptions;
-
-
 
 namespace Rowing.Application.InjuryPreventionUseCases;
 
-public class InjuryPreventionService : IInjuryPreventionService
+public class InjuryPreventionQueryService : IInjuryPreventionQueryService
 {
     private readonly IInjuryPreventionRepository _injuryRepo;
     private readonly IStrokePhaseRepository _strokeRepo;
-    private readonly ILogger<InjuryPreventionService> _logger;
+    private readonly ILogger<InjuryPreventionQueryService> _logger;
 
-    public InjuryPreventionService(IInjuryPreventionRepository injuryRepo, IStrokePhaseRepository strokeRepo,
-        ILogger<InjuryPreventionService> logger)
+    public InjuryPreventionQueryService(IInjuryPreventionRepository injuryRepo, IStrokePhaseRepository strokeRepo,
+        ILogger<InjuryPreventionQueryService> logger)
     {
         _injuryRepo = injuryRepo;
         _strokeRepo = strokeRepo;
@@ -60,27 +56,4 @@ public class InjuryPreventionService : IInjuryPreventionService
 
         return dto;
     }
-
-    public async Task UpdateInjuryPreventionAsync(int id, UpdateInjuryPrevRequestDto dto1)
-    {
-        //fetch domain entity and set hidden fields
-        var domainEntity = await _injuryRepo.GetInjuryPreventionByIdAsync(id);
-        if (domainEntity == null) //if the record is missing log an error
-        {
-            _logger.LogError("Invalid injury prevention id {id}. No records were updated", id);
-            throw new NotFoundException($"Injury prevention with id {id} not found");
-        }
-
-        domainEntity.IsVerified = false;
-        domainEntity.BodyArea = dto1.BodyArea;
-        domainEntity.InjuryType = dto1.InjuryType;
-        domainEntity.PreventionStrategy = dto1.PreventionStrategy;
-        domainEntity.StrengtheningExercises = dto1.StrengtheningExercises;
-        domainEntity.CriticalPhaseId = (int)dto1.RiskPhase.Selected;
-        domainEntity.Id = id;
-
-        //send this to the repository to overwrite the current record
-        await _injuryRepo.UpdateInjuryPreventionAsync(domainEntity);
-        //no exception handling here since we just checked that the id was valid in the previous step
-     }
 }

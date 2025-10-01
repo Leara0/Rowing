@@ -10,20 +10,23 @@ namespace Rowing.API.Controllers;
 public class InjuryPreventionController : ControllerBase
 {
     private readonly ILogger<InjuryPreventionController> _logger;
-    private readonly IInjuryPreventionService _preventionService;
+    private readonly IInjuryPreventionQueryService _queryService;
+    private readonly IInjuryPreventionCommandService _commandService;
 
     public InjuryPreventionController(ILogger<InjuryPreventionController> logger,
-        IInjuryPreventionService preventionService)
+        IInjuryPreventionQueryService queryService,
+        IInjuryPreventionCommandService commandService)
     {
         _logger = logger;
-        _preventionService = preventionService;
+        _queryService = queryService;
+        _commandService = commandService;
     }
     
     [HttpGet]
     public async Task<ActionResult<IEnumerable<InjuryPreventionDto>>> GetAll()
     {
         _logger.LogInformation("Getting all injury preventions");
-        var result = await _preventionService.GetAllInjuryPreventionsAsync();
+        var result = await _queryService.GetAllInjuryPreventionsAsync();
         return Ok(result);
         //call service layer to get all injury prevention datas
         //SL calls repo to get all data
@@ -34,7 +37,7 @@ public class InjuryPreventionController : ControllerBase
     public async Task<ActionResult<InjuryPreventionDto>> GetById(int id)
     {
         _logger.LogInformation("Getting injury prevention by id {0}", id);
-        var result = await _preventionService.GetInjuryPreventionByIdAsync(id);
+        var result = await _queryService.GetInjuryPreventionByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
     }
 
@@ -42,7 +45,7 @@ public class InjuryPreventionController : ControllerBase
     public async Task<ActionResult<UpdateInjuryPrevResponseDto>> GetInjuryPreventionForEdit(int id)
     {
         _logger.LogInformation("Getting injury prevention by id {id}", id);
-        var result = await _preventionService.GetInjuryPreventionForEditAsync(id);
+        var result = await _queryService.GetInjuryPreventionForEditAsync(id);
         return result == null ? NotFound() : Ok(result);
     }
 
@@ -54,7 +57,7 @@ public class InjuryPreventionController : ControllerBase
         
         try //send the dto to the service layer
         {
-            await _preventionService.UpdateInjuryPreventionAsync(id, dto);
+            await _commandService.UpdateInjuryPreventionAsync(id, dto);
             return NoContent();
         }
         catch (NotFoundException ex)
