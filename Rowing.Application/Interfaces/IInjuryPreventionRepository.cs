@@ -5,4 +5,6 @@ public interface IInjuryPreventionRepository
 {
     public Task<IEnumerable<InjuryPrevention>> GetAllInjuryPreventionsAsync();
     public Task<InjuryPrevention?> GetInjuryPreventionByIdAsync(int id);
+    public Task UpdateInjuryPreventionAsync(InjuryPrevention model);
+
 }

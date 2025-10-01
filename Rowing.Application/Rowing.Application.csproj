@@ -18,10 +18,10 @@
       <Compile Update="InjuryPreventionUseCases\InjuryPreventionDto.cs">
         <DependentUpon>DTOs.cs</DependentUpon>
       </Compile>
-      <Compile Update="InjuryPreventionUseCases\UpdateInjuryPrevRequestDto.cs">
+      <Compile Update="InjuryPreventionUseCases\UpdateInjuryPrevResponseDto.cs">
         <DependentUpon>DTOs.cs</DependentUpon>
       </Compile>
-      <Compile Update="InjuryPreventionUseCases\UpdateInjuryPrevResponseDto.cs">
+      <Compile Update="InjuryPreventionUseCases\UpdateInjuryPrevRequestDto.cs">
         <DependentUpon>DTOs.cs</DependentUpon>
       </Compile>
     </ItemGroup>

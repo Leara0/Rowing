@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Rowing.Application.Exceptions;
 using Rowing.Application.InjuryPreventionUseCases;
+
 
 namespace Rowing.API.Controllers;
 
@@ -37,7 +39,7 @@ public class InjuryPreventionController : ControllerBase
     }
 
     [HttpGet("{id}/edit")]
-    public async Task<ActionResult<UpdateInjuryPrevRequestDto>> GetInjuryPreventionForEdit(int id)
+    public async Task<ActionResult<UpdateInjuryPrevResponseDto>> GetInjuryPreventionForEdit(int id)
     {
         _logger.LogInformation("Getting injury prevention by id {id}", id);
         var result = await _preventionService.GetInjuryPreventionForEditAsync(id);
@@ -45,13 +47,19 @@ public class InjuryPreventionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<UpdateInjuryPrevResponseDto>> UpdateInjuryPrevention(int id, 
-        UpdateInjuryPrevResponseDto dto)
+    public async Task<ActionResult> UpdateInjuryPrevention(int id, UpdateInjuryPrevRequestDto dto)
     {
-        //check if the data is valid
-        //send the dto to the service layer
-        //parse the stroke phase out of the enum and then GET THE NUMBER BACK
-        //send it to the repository to record
-        throw new NotImplementedException();
+        //check if the data is valid doing that model state thing
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
+        try //send the dto to the service layer
+        {
+            await _preventionService.UpdateInjuryPreventionAsync(id, dto);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 }
