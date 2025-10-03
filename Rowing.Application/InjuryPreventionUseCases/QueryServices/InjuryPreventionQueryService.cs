@@ -27,16 +27,10 @@ public class InjuryPreventionQueryService : IInjuryPreventionQueryService
     public async Task<InjuryPreventionDto?> GetInjuryPreventionByIdAsync(int id)
     {
         var domainEntity = await _injuryRepo.GetInjuryPreventionByIdAsync(id);
-        return domainEntity == null ? null : new InjuryPreventionDto(domainEntity);
-    }
-
-    public async Task<UpdateInjuryPrevResponseDto?> GetInjuryPreventionForEditAsync(int id)
-    {
-        var domainEntity = await _injuryRepo.GetInjuryPreventionByIdAsync(id);
         if (domainEntity == null)
             return null;
-        var dto = new UpdateInjuryPrevResponseDto(domainEntity);
-
+        var dto = new InjuryPreventionDto(domainEntity);
+        
         try //this block checks the RiskPhaseName to ensure it is a member of the StrokePhase enum
         {
             dto.RiskPhase = new StrokePhaseWrapperDto
@@ -56,4 +50,5 @@ public class InjuryPreventionQueryService : IInjuryPreventionQueryService
 
         return dto;
     }
+
 }

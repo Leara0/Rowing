@@ -1,3 +1,4 @@
+using Rowing.Application.DTOs;
 using Rowing.Domain.Entities;
 
 namespace Rowing.Application.InjuryPreventionUseCases;
@@ -9,7 +10,7 @@ public class InjuryPreventionDto
     public string InjuryType { get; set; }
     public string PreventionStrategy { get; set; }
     public string StrengtheningExercises { get; set; }
-    public string RiskPhaseName { get; set; }
+    public StrokePhaseWrapperDto RiskPhase { get; set; }
     public bool IsVerified { get; set; }
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; }
@@ -21,9 +22,10 @@ public class InjuryPreventionDto
         InjuryType = model.InjuryType;
         PreventionStrategy = model.PreventionStrategy;
         StrengtheningExercises = model.StrengtheningExercises;
-        RiskPhaseName = model.RiskPhaseName;
+        //risk phase name needs to be set separately 
         IsVerified = model.IsVerified;
         CreatedAt = model.CreatedAt;
         CreatedBy = model.CreatedBy;
     }
+    
 }

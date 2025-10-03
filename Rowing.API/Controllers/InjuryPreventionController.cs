@@ -41,14 +41,6 @@ public class InjuryPreventionController : ControllerBase
         return result == null ? NotFound() : Ok(result);
     }
 
-    [HttpGet("{id}/edit")]
-    public async Task<ActionResult<UpdateInjuryPrevResponseDto>> GetInjuryPreventionForEdit(int id)
-    {
-        _logger.LogInformation("Getting injury prevention by id {id}", id);
-        var result = await _queryService.GetInjuryPreventionForEditAsync(id);
-        return result == null ? NotFound() : Ok(result);
-    }
-
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateInjuryPrevention(int id, UpdateInjuryPrevRequestDto dto)
     {
