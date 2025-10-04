@@ -51,7 +51,18 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
         domainEntity.CreatedAt = DateTime.UtcNow;
         domainEntity.CreatedBy = "user";
         
-        //send it to the repository and get the int back
+        //send it to the repository. if creates fails it will throw an error that will be caught by controller
         return await _injuryRepo.CreateInjuryPreventionAsync(domainEntity);
+    }
+
+    public async Task DeleteInjuryPreventionAsync(int id)
+    {
+        var rowsAffected = await _injuryRepo.DeleteInjuryPreventionAsync(id);
+        //check what number we get back and create an error if it's not 1
+        if (rowsAffected != 1)
+        {
+            _logger.LogError("No record found with id {id}. No record was deleted.", id);
+            throw new NotFoundException($"No record found with id {id}. No record was deleted.");
+        }
     }
 }

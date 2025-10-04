@@ -75,9 +75,16 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
             is_verified = model.IsVerified,
             created_at = model.CreatedAt,
             created_by = model.CreatedBy
-            
         });
         return newId ;
+    }
+
+    public async Task<int> DeleteInjuryPreventionAsync(int id)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var rowsAffected = await conn.ExecuteAsync("DELETE FROM injury_prevention WHERE prevention_id = @id",
+            new { id });
+        return rowsAffected;
     }
 
     public InjuryPrevention MapToDomain(InjuryPreventionDbDto model)

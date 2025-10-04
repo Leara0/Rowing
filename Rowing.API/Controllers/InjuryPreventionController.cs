@@ -63,9 +63,26 @@ public class InjuryPreventionController : ControllerBase
     {
         //check if modelstate is valid
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        
-        //try to send it to the database
-        // catch no rows edited exception
+
+        try //try to send it to the database
+        {
+            var newId = await _commandService.CreateInjuryPreventionAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to create injury prevention record");
+            return StatusCode(500, "An error occured creating the new record");
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteInjuryPrevention(int id)
+    {
+        //call the service layer
+        //call the repository
+        //check for rows affected
+        //return results
         throw new NotImplementedException();
     }
 }
