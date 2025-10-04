@@ -42,7 +42,7 @@ public class InjuryPreventionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateInjuryPrevention(int id, UpdateInjuryPrevRequestDto dto)
+    public async Task<ActionResult> UpdateInjuryPrevention(int id, UpdateCreateInjuryPreventionDto dto)
     {
         //check if the data is valid doing that model state thing
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -56,5 +56,16 @@ public class InjuryPreventionController : ControllerBase
         {
             return NotFound(ex.Message);
         }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> CreateInjuryPrevention(UpdateCreateInjuryPreventionDto dto)
+    {
+        //check if modelstate is valid
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
+        //try to send it to the database
+        // catch no rows edited exception
+        throw new NotImplementedException();
     }
 }

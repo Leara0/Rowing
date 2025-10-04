@@ -3,7 +3,7 @@ using Rowing.Application.DTOs;
 
 namespace Rowing.Application.InjuryPreventionUseCases;
 
-public class UpdateInjuryPrevRequestDto
+public class UpdateCreateInjuryPreventionDto
 {
     [Required]
     [StringLength(50)]

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Rowing.Application.Exceptions;
 using Rowing.Application.Interfaces;
+using Rowing.Domain.Entities;
 
 namespace Rowing.Application.InjuryPreventionUseCases;
 
@@ -17,7 +18,7 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
         _strokeRepo = strokeRepo;
         _logger = logger;
     }
-    public async Task UpdateInjuryPreventionAsync(int id, UpdateInjuryPrevRequestDto dto)
+    public async Task UpdateInjuryPreventionAsync(int id, UpdateCreateInjuryPreventionDto dto)
     {
         //fetch domain entity and set hidden fields
         var domainEntity = await _injuryRepo.GetInjuryPreventionByIdAsync(id);
@@ -38,5 +39,19 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
         //send this to the repository to overwrite the current record
         await _injuryRepo.UpdateInjuryPreventionAsync(domainEntity);
         //no exception handling here since we just checked that the id was valid in the previous step
+    }
+
+    public async Task<int> CreateInjuryPreventionAsync(UpdateCreateInjuryPreventionDto dto)
+    {
+        //create a new domain entity and set all the fields
+        var domainEntity = new InjuryPrevention(dto.BodyArea, dto.InjuryType, dto.PreventionStrategy,
+            dto.StrengtheningExercises);
+        domainEntity.CriticalPhaseId = (int)dto.RiskPhase.Selected;
+        domainEntity.IsVerified = false;
+        domainEntity.CreatedAt = DateTime.UtcNow;
+        domainEntity.CreatedBy = "user";
+        
+        //send it to the repository and get the int back
+        return await _injuryRepo.CreateInjuryPreventionAsync(domainEntity);
     }
 }

@@ -58,6 +58,28 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
         });
     }
 
+    public async Task<int> CreateInjuryPreventionAsync(InjuryPrevention model)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var sql = @"INSERT INTO injury_prevention (body_area, injury_type, prevention_strategy, strengthening_exercises,
+            critical_phase_id, is_verified, created_at, created_by) VALUES (@body_area, @injury_type, 
+            @prevention_strategy, @strengthening_exercises,@critical_phase_id, @is_verified, @created_at, @created_by);
+            SELECT LAST_INSERT_ID()";
+        var newId = await conn.ExecuteScalarAsync<int>(sql, new
+        {
+            body_area = model.BodyArea,
+            injury_type = model.InjuryType,
+            prevention_strategy = model.PreventionStrategy,
+            strengthening_exercises = model.StrengtheningExercises,
+            critical_phase_id = model.CriticalPhaseId,
+            is_verified = model.IsVerified,
+            created_at = model.CreatedAt,
+            created_by = model.CreatedBy
+            
+        });
+        return newId ;
+    }
+
     public InjuryPrevention MapToDomain(InjuryPreventionDbDto model)
     {
         return new InjuryPrevention

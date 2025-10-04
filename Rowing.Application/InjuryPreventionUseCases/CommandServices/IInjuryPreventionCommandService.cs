@@ -2,5 +2,6 @@ namespace Rowing.Application.InjuryPreventionUseCases;
 
 public interface IInjuryPreventionCommandService
 {
-    public Task UpdateInjuryPreventionAsync(int id, UpdateInjuryPrevRequestDto dto);
+    public Task UpdateInjuryPreventionAsync(int id, UpdateCreateInjuryPreventionDto dto);
+    public Task<int> CreateInjuryPreventionAsync(UpdateCreateInjuryPreventionDto dto);
 }

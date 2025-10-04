@@ -29,13 +29,11 @@ public class InjuryPrevention
     
     public InjuryPrevention() {}
 
-    public InjuryPrevention(string bodyArea, string injuryType, string prevention, string strengthening,
-        string riskPhase)
+    public InjuryPrevention(string bodyArea, string injuryType, string prevention, string strengthening)
     {
         BodyArea = bodyArea;
         InjuryType = injuryType;
         PreventionStrategy = prevention;
         StrengtheningExercises = strengthening;
-        RiskPhaseName = riskPhase;
     }
 }
