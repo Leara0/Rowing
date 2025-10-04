@@ -40,13 +40,13 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
         return preventionDbModel == null? null : MapToDomain(preventionDbModel);
     }
 
-    public async Task UpdateInjuryPreventionAsync(InjuryPrevention model)
+    public async Task<int> UpdateInjuryPreventionAsync(InjuryPrevention model)
     {
         using var conn = _connectionFactory.CreateConnection();
         var sql = @"UPDATE injury_prevention SET body_area = @body_area, injury_type = @injury_type, 
             prevention_strategy = @prevention_strategy, strengthening_exercises = @strengthening_exercises,
             critical_phase_id = @critical_phase_id, is_verified = @is_verified WHERE prevention_id = @id";
-        await conn.ExecuteAsync(sql, new
+        var rowsAffected = await conn.ExecuteAsync(sql, new
         {
             body_area = model.BodyArea,
             injury_type = model.InjuryType,
@@ -56,6 +56,7 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
             is_verified = model.IsVerified,
             id = model.Id
         });
+        return rowsAffected;
     }
 
     public async Task<int> CreateInjuryPreventionAsync(InjuryPrevention model)

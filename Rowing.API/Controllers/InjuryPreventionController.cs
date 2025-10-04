@@ -79,10 +79,14 @@ public class InjuryPreventionController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteInjuryPrevention(int id)
     {
-        //call the service layer
-        //call the repository
-        //check for rows affected
-        //return results
-        throw new NotImplementedException();
+        try
+        {
+            await _commandService.DeleteInjuryPreventionAsync(id);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 }
