@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using Rowing.Application.CommonErrors.CommandServices;
+using Rowing.Application.CommonErrors.QueryServices;
 using Rowing.Application.InjuryPreventionUseCases;
 using Rowing.Application.Interfaces;
 using Rowing.Application.StrokePhase;
@@ -23,6 +25,9 @@ builder.Services.AddScoped<IStrokePhaseService, StrokePhaseService>();
 builder.Services.AddScoped<IInjuryPreventionRepository, InjuryPreventionRepository>();
 builder.Services.AddScoped<IInjuryPreventionCommandService, InjuryPreventionCommandService>();
 builder.Services.AddScoped<IInjuryPreventionQueryService, InjuryPreventionQueryService>();
+builder.Services.AddScoped<ICommonErrorsRepository, CommonErrorsRepository>();
+builder.Services.AddScoped<ICommonErrorsQueryService, CommonErrorsQueryService>();
+builder.Services.AddScoped<ICommonErrorsCommandService, CommonErrorsCommandService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
