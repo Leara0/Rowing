@@ -25,7 +25,7 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
         var domainEntity = new InjuryPrevention(dto.BodyArea, dto.InjuryType, dto.PreventionStrategy,
             dto.StrengtheningExercises);
         domainEntity.IsVerified = false;
-        domainEntity.CriticalPhaseId = (int)dto.RiskPhase.Selected;
+        domainEntity.SetCriticalPhaseId((int)dto.RiskPhase.Selected);
         domainEntity.Id = id;
         
         //send this to the repository to overwrite the current record
@@ -43,7 +43,7 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
         //create a new domain entity and set all the fields
         var domainEntity = new InjuryPrevention(dto.BodyArea, dto.InjuryType, dto.PreventionStrategy,
             dto.StrengtheningExercises);
-        domainEntity.CriticalPhaseId = (int)dto.RiskPhase.Selected;
+        domainEntity.SetCriticalPhaseId((int)dto.RiskPhase.Selected);
         domainEntity.IsVerified = false;
         domainEntity.CreatedAt = DateTime.UtcNow;
         domainEntity.CreatedBy = "user";

@@ -90,15 +90,20 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
 
     public InjuryPrevention MapToDomain(InjuryPreventionDbDto model)
     {
-        return new InjuryPrevention
+        var domainEntity = new InjuryPrevention
         {
             Id = model.prevention_id,
-            BodyArea = model.body_area,
-            InjuryType = model.injury_type,
-            PreventionStrategy = model.prevention_strategy,
-            StrengtheningExercises = model.strengthening_exercises,
-            CriticalPhaseId = model.critical_phase_id,
-            RiskPhaseName = model.risk_phase_name,
+        };
+        domainEntity.SetBodyArea(model.body_area);
+        domainEntity.SetInjuryType(model.injury_type);
+        domainEntity.SetPreventionStrategy(model.prevention_strategy);
+        domainEntity.SetStrengtheningExercises(model.strengthening_exercises);
+        domainEntity.SetCriticalPhaseId(model.critical_phase_id);
+        domainEntity.SetRiskPhaseName(model.risk_phase_name);
+        return new InjuryPrevention
+        {
+            
+            
             IsVerified = model.is_verified,
             CreatedAt = model.created_at,
             CreatedBy = model.created_by,

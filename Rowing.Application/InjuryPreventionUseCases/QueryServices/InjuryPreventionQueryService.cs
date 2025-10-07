@@ -21,7 +21,15 @@ public class InjuryPreventionQueryService : IInjuryPreventionQueryService
     public async Task<IEnumerable<InjuryPreventionDto>> GetAllInjuryPreventionsAsync()
     {
         var domainEntity = await _injuryRepo.GetAllInjuryPreventionsAsync();
-        return domainEntity.Select(x => new InjuryPreventionDto(x));
+        return domainEntity.Select(entity =>
+        {
+            var dto = new InjuryPreventionDto(entity);
+            dto.RiskPhase = new StrokePhaseWrapperDto
+            {
+                Selected = Enum.Parse<StrokePhaseWrapperDto.StrokePhase>(entity.RiskPhaseName)
+            };
+            return dto;
+        });
     }
 
     public async Task<InjuryPreventionDto?> GetInjuryPreventionByIdAsync(int id)
@@ -31,23 +39,11 @@ public class InjuryPreventionQueryService : IInjuryPreventionQueryService
             return null;
         var dto = new InjuryPreventionDto(domainEntity);
         
-        try //this block checks the RiskPhaseName to ensure it is a member of the StrokePhase enum
+        dto.RiskPhase = new StrokePhaseWrapperDto
         {
-            dto.RiskPhase = new StrokePhaseWrapperDto
-            {
-                Selected = Enum.Parse<StrokePhaseWrapperDto.StrokePhase>(domainEntity.RiskPhaseName)
-            };
-        }
-        catch (ArgumentException ex)
-        {
-            _logger.LogError(ex, "Invalid stroke phase '{RiskPhaseName}' for injury prevention id {id}",
-                domainEntity.RiskPhaseName, id);
-            dto.RiskPhase = new StrokePhaseWrapperDto()
-            {
-                Selected = null
-            };
-        }
-
+            Selected = Enum.Parse<StrokePhaseWrapperDto.StrokePhase>(domainEntity.RiskPhaseName)
+        };
+        
         return dto;
     }
 
