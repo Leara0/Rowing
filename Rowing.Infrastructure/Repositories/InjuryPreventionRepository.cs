@@ -24,7 +24,7 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
             INNER JOIN stroke_phases AS sp ON ip.critical_phase_id = sp.phase_id";
 
         var preventionDbModel = await conn.QueryAsync<InjuryPreventionDbDto>(sql);
-        return preventionDbModel.Select(x => MapToDomain(x));
+        return preventionDbModel.Select(MapToDomain);
     }
 
     public async Task<InjuryPrevention?> GetInjuryPreventionByIdAsync(int id)
@@ -93,6 +93,9 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
         var domainEntity = new InjuryPrevention
         {
             Id = model.prevention_id,
+            IsVerified = model.is_verified,
+            CreatedAt = model.created_at,
+            CreatedBy = model.created_by,
         };
         domainEntity.SetBodyArea(model.body_area);
         domainEntity.SetInjuryType(model.injury_type);
@@ -100,13 +103,6 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
         domainEntity.SetStrengtheningExercises(model.strengthening_exercises);
         domainEntity.SetCriticalPhaseId(model.critical_phase_id);
         domainEntity.SetRiskPhaseName(model.risk_phase_name);
-        return new InjuryPrevention
-        {
-            
-            
-            IsVerified = model.is_verified,
-            CreatedAt = model.created_at,
-            CreatedBy = model.created_by,
-        };
+        return domainEntity;
     }
 }

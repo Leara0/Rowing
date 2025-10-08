@@ -25,7 +25,6 @@ public class InjuryPreventionController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<InjuryPreventionDto>>> GetAll()
     {
-        _logger.LogInformation("Getting all injury preventions");
         var result = await _queryService.GetAllInjuryPreventionsAsync();
         return Ok(result);
         //call service layer to get all injury prevention datas
@@ -36,7 +35,6 @@ public class InjuryPreventionController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<InjuryPreventionDto>> GetById(int id)
     {
-        _logger.LogInformation("Getting injury prevention by id {0}", id);
         var result = await _queryService.GetInjuryPreventionByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
     }
@@ -46,7 +44,7 @@ public class InjuryPreventionController : ControllerBase
     {
         //check if the data is valid doing that model state thing
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        
+
         try //send the dto to the service layer
         {
             await _commandService.UpdateInjuryPreventionAsync(id, dto);
@@ -55,6 +53,15 @@ public class InjuryPreventionController : ControllerBase
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error updating injury prevention ID {id}", id);
+            return StatusCode(500, "An error occurred while updating the injury prevention file");
         }
     }
 
@@ -68,6 +75,10 @@ public class InjuryPreventionController : ControllerBase
         {
             var newId = await _commandService.CreateInjuryPreventionAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

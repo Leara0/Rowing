@@ -2,31 +2,31 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Rowing.Domain.Entities;
 
-public class CommonErrors
+public class CommonError
 {
+    //use private setters to enforce required fields via set methods
     public int ErrorId { get; set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
     public int StrokePhaseId { get; private set; }
     public string StrokePhaseName { get; private set; }
     public string Cause { get; private set; }
-    public string CorrectiveStrategy { get; private set; }
+    public string CorrectionStrategy { get; private set; }
     public int RelatedInjuryId { get; private set; }
-    public string RelatedInjuryName { get; private set; }
+    public string RelatedInjuryBodyArea { get; private set; }
     public bool IsVerified { get; set; }
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; }
 
-    public CommonErrors(string name, string desc, string cause, string strategy)
+    public CommonError(string name, string desc, string cause, string strategy)
     {
         SetName(name);
         SetDescription(desc);
         SetCause(cause);
-        SetCorrectiveStrategy(strategy);
-
+        SetCorrectionStrategy(strategy);
     }
     
-    public CommonErrors(string name, string desc, int phaseId, string phaseName, string cause, string strategy,
+    public CommonError(string name, string desc, int phaseId, string phaseName, string cause, string strategy,
         int relatedId, string relatedName)
     {
         SetName(name);
@@ -34,12 +34,12 @@ public class CommonErrors
         SetStrokePhaseId(phaseId);
         SetStrokePhaseName(phaseName);
         SetCause(cause);
-        SetCorrectiveStrategy(strategy);
+        SetCorrectionStrategy(strategy);
         SetRelatedInjuryId(relatedId);
-        SetRelatedInjuryName(relatedName);
+        SetRelatedInjuryBodyArea(relatedName);
     }
 
-    public CommonErrors() { }
+    public CommonError() { }
 
     public void SetName(string name)
     {
@@ -73,11 +73,11 @@ public class CommonErrors
             throw new ArgumentException("Cause  is required", nameof(cause));
         Cause = cause;
     }
-    public void SetCorrectiveStrategy(string strategy)
+    public void SetCorrectionStrategy(string strategy)
     {
         if (string.IsNullOrWhiteSpace(strategy))
             throw new ArgumentException("Corrective strategy is required", nameof(strategy));
-        CorrectiveStrategy = strategy;
+        CorrectionStrategy = strategy;
     }
     public void SetRelatedInjuryId(int id)
     {
@@ -85,10 +85,10 @@ public class CommonErrors
             throw new ArgumentException("Related Injury ID is required", nameof(id));
         RelatedInjuryId = id;
     }
-    public void SetRelatedInjuryName(string name)
+    public void SetRelatedInjuryBodyArea(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Related injury name is required", nameof(name));
-        RelatedInjuryName = name;
+        RelatedInjuryBodyArea = name;
     }
 }
