@@ -12,7 +12,7 @@ public class InjuryPrevention
     public int CriticalPhaseId { get; private set; }
     public string RiskPhaseName { get; private set; }
     public bool IsVerified { get; set; }
-   public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; }
     
     public InjuryPrevention() {}
