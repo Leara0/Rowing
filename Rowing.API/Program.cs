@@ -25,9 +25,9 @@ builder.Services.AddScoped<IStrokePhaseService, StrokePhaseService>();
 builder.Services.AddScoped<IInjuryPreventionRepository, InjuryPreventionRepository>();
 builder.Services.AddScoped<IInjuryPreventionCommandService, InjuryPreventionCommandService>();
 builder.Services.AddScoped<IInjuryPreventionQueryService, InjuryPreventionQueryService>();
-builder.Services.AddScoped<ICommonErrorsRepository, CommonErrorsRepository>();
-builder.Services.AddScoped<ICommonErrorsQueryService, CommonErrorsQueryService>();
-builder.Services.AddScoped<ICommonErrorsCommandService, CommonErrorsCommandService>();
+builder.Services.AddScoped<ICommonErrorRepository, CommonErrorRepository>();
+builder.Services.AddScoped<ICommonErrorQueryService, CommonErrorQueryService>();
+builder.Services.AddScoped<ICommonErrorCommandService, CommonErrorCommandService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

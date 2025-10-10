@@ -4,23 +4,23 @@ using Rowing.Application.Interfaces;
 
 namespace Rowing.Application.CommonErrors.QueryServices;
 
-public class CommonErrorsQueryService: ICommonErrorsQueryService
+public class CommonErrorQueryService: ICommonErrorQueryService
 {
-    private readonly ICommonErrorsRepository _commonErrorsRepo;
-    private readonly ILogger<CommonErrorsQueryService> _logger;
+    private readonly ICommonErrorRepository _commonErrorRepo;
+    private readonly ILogger<CommonErrorQueryService> _logger;
 
-    public CommonErrorsQueryService(ICommonErrorsRepository commonErrorsRepo, ILogger<CommonErrorsQueryService> logger)
+    public CommonErrorQueryService(ICommonErrorRepository commonErrorRepo, ILogger<CommonErrorQueryService> logger)
     {
-        _commonErrorsRepo = commonErrorsRepo;
+        _commonErrorRepo = commonErrorRepo;
         _logger = logger;
     }
 
-    public async Task<IEnumerable<CommonErrorsDto>> GetAllCommonErrorsAsync()
+    public async Task<IEnumerable<CommonErrorDto>> GetAllCommonErrorsAsync()
     {
-        var domainEntity = await _commonErrorsRepo.GetAllCommonErrorsAsync();
+        var domainEntity = await _commonErrorRepo.GetAllCommonErrorsAsync();
         return domainEntity.Select(entity =>
         {
-            var dto = new CommonErrorsDto(entity);
+            var dto = new CommonErrorDto(entity);
             dto.RiskPhase = new StrokePhaseWrapperDto
             {
                 Selected = Enum.Parse<StrokePhaseWrapperDto.StrokePhase>(entity.StrokePhaseName)

@@ -6,11 +6,11 @@ using Rowing.Infrastructure.DbModels;
 
 namespace Rowing.Infrastructure.Repositories;
 
-public class CommonErrorsRepository : ICommonErrorsRepository
+public class CommonErrorRepository : ICommonErrorRepository
 {
     private readonly IDbConnectionFactory _connectionFactory;
 
-    public CommonErrorsRepository(IDbConnectionFactory connectionFactory)
+    public CommonErrorRepository(IDbConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory; 
     }
@@ -26,7 +26,20 @@ public class CommonErrorsRepository : ICommonErrorsRepository
         var commonErrorsDbModel = await conn.QueryAsync<CommonErrorDbDto>(sql);
         return commonErrorsDbModel.Select(MapToDomain);
     }
-    
+
+    public async Task<CommonError?> GetCommonErrorById(int id)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var sql = @"SELECT ce.*, sp.name AS phase_name, ip.body_area AS related_injury_body_area
+            FROM common_errors as ce
+            INNER JOIN stroke_phase AS sp ON ce.phase_id = sp.phase_id
+            INNER JOIN injury_prevention AS ip ON ce.related_injury_id = ip.prevention_id
+            WHERE ce.error_id = @id";
+        var commonErrorDbModel = await conn.QuerySingleOrDefaultAsync<CommonErrorDbDto>(sql, new { id });
+        return commonErrorDbModel == null ? null : MapToDomain(commonErrorDbModel);
+    }
+
+
     public CommonError MapToDomain(CommonErrorDbDto dto)
     {
         var domainEntity = new CommonError

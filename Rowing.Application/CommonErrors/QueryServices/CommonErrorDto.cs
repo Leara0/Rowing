@@ -3,7 +3,7 @@ using Rowing.Domain.Entities;
 
 namespace Rowing.Application.CommonErrors.QueryServices;
 
-public class CommonErrorsDto
+public class CommonErrorDto
 {
     public int ErrorId { get; set; }
     public string Name { get; set; }
@@ -16,7 +16,7 @@ public class CommonErrorsDto
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; }
 
-    public CommonErrorsDto(CommonError model)
+    public CommonErrorDto(CommonError model)
     {
         ErrorId = model.ErrorId;
         Name = model.Name;

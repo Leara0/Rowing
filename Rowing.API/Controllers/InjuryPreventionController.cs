@@ -58,11 +58,6 @@ public class InjuryPreventionController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Unexpected error updating injury prevention ID {id}", id);
-            return StatusCode(500, "An error occurred while updating the injury prevention file");
-        }
     }
 
     [HttpPost]
@@ -76,14 +71,10 @@ public class InjuryPreventionController : ControllerBase
             var newId = await _commandService.CreateInjuryPreventionAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
         }
+        //this checks for any errors that are due to failure to pass domain validation 
         catch (ArgumentException ex)
         {
             return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to create injury prevention record");
-            return StatusCode(500, "An error occured creating the new record");
         }
     }
 
@@ -95,6 +86,7 @@ public class InjuryPreventionController : ControllerBase
             await _commandService.DeleteInjuryPreventionAsync(id);
             return NoContent();
         }
+        //this checks for any errors that are due to failure to pass domain validation 
         catch (NotFoundException ex)
         {
             return NotFound(ex.Message);

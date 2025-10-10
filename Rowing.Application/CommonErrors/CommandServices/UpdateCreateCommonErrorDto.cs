@@ -1,6 +1,6 @@
 namespace Rowing.Application.CommonErrors.CommandServices;
 
-public interface ICommonErrorsCommandService
+public class UpdateCreateCommonErrorDto
 {
     
 }
