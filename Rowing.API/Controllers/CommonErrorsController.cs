@@ -24,10 +24,8 @@ public class CommonErrorsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CommonErrorsDto>>> GetAll()
     {
-        //call the query service layer
-        //call the repository
-        //get all the records
-        //return them all 
-        throw new NotImplementedException();
+        var result = await _queryService.GetAllCommonErrorsAsync();
+        return Ok(result);
+
     }
 }

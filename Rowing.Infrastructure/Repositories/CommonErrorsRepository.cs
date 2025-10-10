@@ -44,6 +44,6 @@ public class CommonErrorsRepository : ICommonErrorsRepository
         domainEntity.SetCorrectionStrategy(dto.correction_strategy);
         domainEntity.SetRelatedInjuryId(dto.related_injury_id);
         domainEntity.SetRelatedInjuryBodyArea(dto.related_injury_body_area);
-        throw new NotImplementedException();
+        return domainEntity;
     }
 }
