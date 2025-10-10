@@ -31,9 +31,11 @@ public class CommonErrorController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CommonErrorDto>> GetById(int id)
     {
-        throw new NotImplementedException();
+        var result = await _queryService.GetCommonErrorByIdAsync(id);
+        return result == null ? NotFound() : Ok(result);
+        
         //call the application layer with the id
-        // call the repo with the id
+        // calls the repo with the id
         //return the record or not found exception
     }
 }

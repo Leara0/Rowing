@@ -31,6 +31,26 @@ public class CommonErrorQueryService: ICommonErrorQueryService
             };
             return dto;
         });
-        throw new NotImplementedException();
+    }
+
+    public async Task<CommonErrorDto?> GetCommonErrorByIdAsync(int id)
+    {
+        //get the domain entity from the repository
+        //create the dto and set the properties using the custom constructor
+        //map the risk phase and related injury body area properties
+        //return the dto
+        var domainEntity = await _commonErrorRepo.GetCommonErrorByIdAsync(id);
+        if (domainEntity == null) 
+            return null;
+        var dto = new CommonErrorDto(domainEntity);
+        dto.RiskPhase = new StrokePhaseWrapperDto
+        {
+            Selected = Enum.Parse<StrokePhaseWrapperDto.StrokePhase>(domainEntity.StrokePhaseName)
+        };
+        dto.RelatedInjuryBodyArea = new InjuryPreventionWrapperDto
+        {
+            Selected = Enum.Parse<InjuryPreventionWrapperDto.InjuryBodyArea>(domainEntity.RelatedInjuryBodyArea)
+        };
+        return dto;
     }
 }

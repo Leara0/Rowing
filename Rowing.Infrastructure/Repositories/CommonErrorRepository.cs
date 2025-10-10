@@ -27,12 +27,12 @@ public class CommonErrorRepository : ICommonErrorRepository
         return commonErrorsDbModel.Select(MapToDomain);
     }
 
-    public async Task<CommonError?> GetCommonErrorById(int id)
+    public async Task<CommonError?> GetCommonErrorByIdAsync(int id)
     {
         using var conn = _connectionFactory.CreateConnection();
         var sql = @"SELECT ce.*, sp.name AS phase_name, ip.body_area AS related_injury_body_area
             FROM common_errors as ce
-            INNER JOIN stroke_phase AS sp ON ce.phase_id = sp.phase_id
+            INNER JOIN stroke_phases AS sp ON ce.phase_id = sp.phase_id
             INNER JOIN injury_prevention AS ip ON ce.related_injury_id = ip.prevention_id
             WHERE ce.error_id = @id";
         var commonErrorDbModel = await conn.QuerySingleOrDefaultAsync<CommonErrorDbDto>(sql, new { id });
