@@ -43,12 +43,12 @@ public class CommonErrorRepository : ICommonErrorRepository
     {
         using var conn = _connectionFactory.CreateConnection();
         var sql = @"UPDATE common_errors SET name = @name, description = @description, phase_id = @phase_id,
-            cause = @cause, correction_strategy = @strategy, related_injury_id = @relatedId, is_verified = verified
+            cause = @cause, correction_strategy = @strategy, related_injury_id = @relatedId, is_verified = @verified
             WHERE error_id = @id";
         var rowsAffected = await conn.ExecuteAsync(sql, new
         {
             name = model.Name,
-            descriptioon = model.Description,
+            description = model.Description,
             phase_id = model.StrokePhaseId,
             cause = model.Cause,
             strategy = model.CorrectionStrategy,

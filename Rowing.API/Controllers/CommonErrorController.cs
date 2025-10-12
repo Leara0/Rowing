@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rowing.Application.CommonErrors.CommandServices;
 using Rowing.Application.CommonErrors.QueryServices;
+using Rowing.Application.Exceptions;
 
 namespace Rowing.API.Controllers;
 
@@ -44,6 +45,20 @@ public class CommonErrorController : ControllerBase
     public async Task<IActionResult> UpdateCommonError(int id, UpdateCreateCommonErrorDto dto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try //try to send the dto to the database
+        {
+            await _commandService.UpdateCommonErrorAsync(id, dto);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
         
         
         //steps:

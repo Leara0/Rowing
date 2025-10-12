@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Rowing.Application.Exceptions;
 using Rowing.Application.Interfaces;
 using Rowing.Domain.Entities;
 
@@ -14,7 +15,7 @@ public class CommonErrorCommandService: ICommonErrorCommandService
         _commonErrorRepo = commonErrorRepo;
         _logger = logger;
     }
-    public Task UpdateCommonErrorAsync(int id, UpdateCreateCommonErrorDto dto)
+    public async Task UpdateCommonErrorAsync(int id, UpdateCreateCommonErrorDto dto)
     {
         //create a new domain entity
         //set the given fields
@@ -26,11 +27,14 @@ public class CommonErrorCommandService: ICommonErrorCommandService
         domainEntity.SetStrokePhaseId((int)dto.RiskPhase.Selected);
         domainEntity.SetRelatedInjuryId((int)dto.RelatedInjuryBodyArea.Selected);
         domainEntity.IsVerified = false;
+        domainEntity.ErrorId = id;
 
-        var rowsAffected = _commonErrorRepo.UpdateCommonErrorAsync(domainEntity);
-        
-        if (rowsAffected ~=)
-        
-        throw new NotImplementedException();
+        var rowsAffected = await _commonErrorRepo.UpdateCommonErrorAsync(domainEntity);
+
+        if (rowsAffected != 1) //if no recored match this id then no rows will be affected
+        {
+            _logger.LogError("Invalid injury prevention id {id}. No recored were updated", id);
+            throw new NotFoundException($"Injury prevention with id {id} not found");
+        }
     }
 }
