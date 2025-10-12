@@ -50,11 +50,11 @@ public class InjuryPreventionController : ControllerBase
             await _commandService.UpdateInjuryPreventionAsync(id, dto);
             return NoContent();
         }
-        catch (NotFoundException ex)
+        catch (NotFoundException ex)//if no record is found matching id
         {
             return NotFound(ex.Message);
         }
-        catch (ArgumentException ex)
+        catch (ArgumentException ex) // if updated object fails at domain validation
         {
             return BadRequest(ex.Message);
         }

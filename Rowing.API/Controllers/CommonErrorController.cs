@@ -34,8 +34,23 @@ public class CommonErrorController : ControllerBase
         var result = await _queryService.GetCommonErrorByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
         
+        //steps:
         //call the application layer with the id
         // calls the repo with the id
         //return the record or not found exception
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCommonError(int id, UpdateCreateCommonErrorDto dto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
+        
+        //steps:
+        //check validity of model state
+        //send the dto to the application layer (pull out enum to num, set admin fields)
+        //send to repository (returns num of rows affected)
+        //app throws not found exception if rows != 1??
+        throw new NotImplementedException();
     }
 }
