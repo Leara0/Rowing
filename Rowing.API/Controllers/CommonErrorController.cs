@@ -74,6 +74,21 @@ public class CommonErrorController : ControllerBase
         //controller sends dto to app layer
         //app layer maps to domain Entity, sorts out enum and sets admin fields then sends to repo
         //repo creates a new record
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        try
+        {
+
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
         throw new NotImplementedException();
     }
 }

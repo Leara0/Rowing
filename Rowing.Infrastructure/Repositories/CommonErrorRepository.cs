@@ -60,6 +60,28 @@ public class CommonErrorRepository : ICommonErrorRepository
         return rowsAffected;
     }
 
+    public async Task<int> CreateCommonErrorsAsync(CommonError model)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var sql = @"INSERT INTO common_errors (name, description, phase_id, cause, correction_strategy,
+            related_injury_id, is_verified, created_at, created_by) VALUES (@name, @description, @phaseId, @cause, @correctionStrategy,
+            @relatedInjuryId, @isVerified, @createdAt, @createdBy);
+            SELECT LAST_INSERT_ID()";
+        var newId = await conn.ExecuteScalarAsync<int>(sql, new
+        {
+            name = model.Name,
+            description = model.Description,
+            phaseId = model.StrokePhaseId,
+            cause = model.Cause,
+            correctionStrategy = model.CorrectionStrategy,
+            relatedInjuryId = model.RelatedInjuryId,
+            isVerified = model.IsVerified,
+            createdAt = model.CreatedAt,
+            createdBy = model.CreatedBy
+        });
+        return newId;
+    }
+
 
     public CommonError MapToDomain(CommonErrorDbDto dto)
     {
