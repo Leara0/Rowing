@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Rowing.Application.Exceptions;
 using Rowing.Application.StrokePhase;
 
 namespace Rowing.API.Controllers;
@@ -37,17 +38,12 @@ public class StrokePhasesController : ControllerBase
     {
         try 
         {
-            var result = await _strokeService.UpdateKeyFocus(id, strokeDto.KeyFocus);
-            if (result == null) // this handles if there is no record for this id
-                _logger.LogError("There is no stroke phase with id {0}", id);
-            else
-                _logger.LogInformation("Updated key focus for stroke phase with id {0}", id);
-            return result == null ? NotFound() : Ok(result);
+            await _strokeService.UpdateKeyFocus(id, strokeDto);
+            return NoContent();
         }
-        catch (Exception ex) // this handles when there is an issue connecting to the database
+        catch (NotFoundException ex) // this handles when there is an issue connecting to the database
         {
-            _logger.LogError(ex, ex.Message);
-            return StatusCode(500, ex.Message);
+            return NotFound(ex);
         }
     }
 }

@@ -39,40 +39,27 @@ public class StrokePhaseRepository : IStrokePhaseRepository
         return MapToDomain(resultDbModel);
     }
 
-    public async Task<StrokePhase?> UpdateKeyFocusAsync(int id, string keyFocus)
+    public async Task<int> UpdateKeyFocusAsync(int id, string keyFocus)
     {
-        try //use try catch to catch database errors
-        { 
-            //open connection
-            using var conn = _connectionFactory.CreateConnection();
-            //update key focus
-            var rowsAffected = await conn.ExecuteAsync(
-                "UPDATE stroke_phases SET key_focus = @keyFocus WHERE phase_id = @id",
-                new { id, keyFocus });
-            //deal with null (if the id was out of range) 
-            if (rowsAffected == 0)
-                return null;
-            //get all information from updated stroke phase from db
-            var resultDbModel = await conn.QuerySingleOrDefaultAsync<StrokePhaseDbDto>
-                ("SELECT * FROM stroke_phases WHERE phase_id = @id", new { id });
-            //return domain entity for updated stroke phase
-            return MapToDomain(resultDbModel);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Database error in UpdateKeyFocus: {ex.Message}");
-            throw;
-        }
+        //open connection
+        using var conn = _connectionFactory.CreateConnection();
+        //update key focus
+        var rowsAffected = await conn.ExecuteAsync(
+            "UPDATE stroke_phases SET key_focus = @keyFocus WHERE phase_id = @id",
+            new { id, keyFocus });
+        return rowsAffected;
+
     }
 
     //helper mapping method from Db model to domain entity
     private StrokePhase MapToDomain(StrokePhaseDbDto model)
     {
-        return new StrokePhase
+        var domainEntity =  new StrokePhase
         {
             Id = model.phase_id,
             Name = model.name,
-            KeyFocus = model.key_focus
         };
+        domainEntity.SetKeyFocus(model.key_focus);
+        return domainEntity; 
     }
 }

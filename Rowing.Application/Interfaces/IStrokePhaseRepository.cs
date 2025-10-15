@@ -5,5 +5,5 @@ public interface IStrokePhaseRepository
 {
     public Task<IEnumerable<StrokePhase>> GetAllStrokePhasesAsync();
     public Task<StrokePhase?> GetStrokePhaseByIdAsync(int id);
-    public Task<StrokePhase?> UpdateKeyFocusAsync(int id, string keyFocus);
+    public Task<int> UpdateKeyFocusAsync(int id, string keyFocus);
 }

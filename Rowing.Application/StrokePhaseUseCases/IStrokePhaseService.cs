@@ -4,5 +4,5 @@ public interface IStrokePhaseService
 {
     public Task<IEnumerable<StrokePhaseDto>> GetAllStrokePhasesAsync();
     public Task<StrokePhaseDto?> GetStrokePhaseById(int id);
-    public Task<UpdateStrokePhaseDto?> UpdateKeyFocus(int id, string model);
+    public Task UpdateKeyFocus(int id, UpdateStrokePhaseDto dto);
 }
