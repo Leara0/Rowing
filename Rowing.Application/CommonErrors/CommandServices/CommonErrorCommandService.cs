@@ -15,7 +15,7 @@ public class CommonErrorCommandService: ICommonErrorCommandService
         _commonErrorRepo = commonErrorRepo;
         _logger = logger;
     }
-    public async Task UpdateCommonErrorAsync(int id, UpdateCreateCommonErrorDto dto)
+    public async Task UpdateCommonErrorsAsync(int id, UpdateCreateCommonErrorDto dto)
     {
         //create a new domain entity
         //set the given fields
@@ -36,5 +36,20 @@ public class CommonErrorCommandService: ICommonErrorCommandService
             _logger.LogError("Invalid injury prevention id {id}. No recored were updated", id);
             throw new NotFoundException($"Injury prevention with id {id} not found");
         }
+    }
+    public Task<int> CreateCommonErrorsAsync(UpdateCreateCommonErrorDto dto)
+    {
+        //create a new domain entity
+        //set all the fields (including the enums and admin fields)
+        //send to repo and get id back
+        //return id to controller
+        var domainEntity = new CommonError(dto.Name, dto.Description, dto.Cause, dto.CorrectionStrategy);
+        domainEntity.SetStrokePhaseId((int)dto.RiskPhase.Selected);
+        domainEntity.SetRelatedInjuryId((int)dto.RelatedInjuryBodyArea.Selected);
+        domainEntity.IsVerified = false;
+        domainEntity.CreatedAt = DateTime.UtcNow;
+        domainEntity.CreatedBy = "user";
+
+        return _commonErrorRepo.CreateCommonErrorsAsync(domainEntity);
     }
 }

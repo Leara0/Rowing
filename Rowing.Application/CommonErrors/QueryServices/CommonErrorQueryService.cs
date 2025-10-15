@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Rowing.Application.CommonErrors.CommandServices;
 using Rowing.Application.DTOs;
 using Rowing.Application.Interfaces;
 
@@ -53,4 +54,5 @@ public class CommonErrorQueryService: ICommonErrorQueryService
         };
         return dto;
     }
+
 }

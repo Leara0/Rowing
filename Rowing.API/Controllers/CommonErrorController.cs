@@ -53,7 +53,7 @@ public class CommonErrorController : ControllerBase
 
         try //try to send the dto to the database
         {
-            await _commandService.UpdateCommonErrorAsync(id, dto);
+            await _commandService.UpdateCommonErrorsAsync(id, dto);
             return NoContent();
         }
         catch (NotFoundException ex)
@@ -79,11 +79,9 @@ public class CommonErrorController : ControllerBase
 
         try
         {
+            var newId = await _commandService.CreateCommonErrorsAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
 
-        }
-        catch (NotFoundException ex)
-        {
-            return NotFound(ex.Message);
         }
         catch (ArgumentException ex)
         {

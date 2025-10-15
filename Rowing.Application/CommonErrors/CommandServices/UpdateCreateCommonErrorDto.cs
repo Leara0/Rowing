@@ -18,7 +18,4 @@ public class UpdateCreateCommonErrorDto
     public string CorrectionStrategy { get; set; }
     [Required]
     public InjuryPreventionWrapperDto RelatedInjuryBodyArea { get; set; }
-    [Required]
-    public bool IsVerified { get; set; }
-    
 }

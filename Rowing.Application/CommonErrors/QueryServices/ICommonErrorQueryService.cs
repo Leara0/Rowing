@@ -1,3 +1,5 @@
+using Rowing.Application.CommonErrors.CommandServices;
+
 namespace Rowing.Application.CommonErrors.QueryServices;
 
 public interface ICommonErrorQueryService
