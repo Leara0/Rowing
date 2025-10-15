@@ -34,16 +34,20 @@ public class StrokePhasesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<StrokePhaseDto>> Update(int id, UpdateStrokePhaseDto strokeDto)
+    public async Task<ActionResult> Update(int id, UpdateStrokePhaseDto strokeDto)
     {
-        try 
+        try
         {
             await _strokeService.UpdateKeyFocus(id, strokeDto);
             return NoContent();
         }
-        catch (NotFoundException ex) // this handles when there is an issue connecting to the database
+        catch (NotFoundException ex) //this catches the case where no record with id could be found to update
         {
-            return NotFound(ex);
+            return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex) //this catches domain validation errors
+        {
+            return BadRequest(ex.Message);
         }
     }
 }
