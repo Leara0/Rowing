@@ -4,4 +4,5 @@ public interface ICommonErrorCommandService
 {
     public Task UpdateCommonErrorsAsync(int id, UpdateCreateCommonErrorDto dto);
     public Task<int> CreateCommonErrorsAsync(UpdateCreateCommonErrorDto dto);
+    public Task DeleteCommonErrorsAsync(int id);
 }

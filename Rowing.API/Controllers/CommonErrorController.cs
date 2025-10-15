@@ -41,7 +41,7 @@ public class CommonErrorController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCommonError(int id, UpdateCreateCommonErrorDto dto)
+    public async Task<IActionResult> UpdateCommonErrors(int id, UpdateCreateCommonErrorDto dto)
     {
         //steps:
         //check validity of model state
@@ -56,18 +56,18 @@ public class CommonErrorController : ControllerBase
             await _commandService.UpdateCommonErrorsAsync(id, dto);
             return NoContent();
         }
-        catch (NotFoundException ex)
+        catch (NotFoundException ex)//record doesn't exist 
         {
             return NotFound(ex.Message);
         }
-        catch (ArgumentException ex)
+        catch (ArgumentException ex)//domain validation failed
         {
             return BadRequest(ex.Message);
         }
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCommonError(UpdateCreateCommonErrorDto dto)
+    public async Task<IActionResult> CreateCommonErrors(UpdateCreateCommonErrorDto dto)
     {
         //steps:
         //check model state validation
@@ -83,10 +83,27 @@ public class CommonErrorController : ControllerBase
             return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
 
         }
-        catch (ArgumentException ex)
+        catch (ArgumentException ex)//domain validation failed
         {
             return BadRequest(ex.Message);
         }
-        throw new NotImplementedException();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCommonErrors(int id)
+    {
+        //steps:
+        //call app layer with id to delete
+        //app layer calls the repo
+        //repo deletes the record
+        try
+        {
+            await _commandService.DeleteCommonErrorsAsync(id);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 }

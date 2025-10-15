@@ -8,5 +8,6 @@ public interface ICommonErrorRepository
     public Task<CommonError?> GetCommonErrorByIdAsync(int id);
     public Task<int> UpdateCommonErrorAsync(CommonError model);
     public Task<int> CreateCommonErrorsAsync(CommonError model);
+    public Task<int> DeleteCommonErrorsAsync(int id);
 
 }

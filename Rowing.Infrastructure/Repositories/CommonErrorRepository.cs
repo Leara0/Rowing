@@ -82,6 +82,14 @@ public class CommonErrorRepository : ICommonErrorRepository
         return newId;
     }
 
+    public async Task<int> DeleteCommonErrorsAsync(int id)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var rowsAffected = await conn.ExecuteAsync("DELETE FROM common_errors WHERE error_id = @id",
+            new { id });
+        return rowsAffected;
+    }
+
 
     public CommonError MapToDomain(CommonErrorDbDto dto)
     {

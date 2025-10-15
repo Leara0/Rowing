@@ -34,7 +34,7 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
         if (rowsAffected != 1) //if no records match this id, no rows will be affected
         {
             _logger.LogError("Invalid injury prevention id {id}. No records were updated", id);
-            throw new NotFoundException($"Injury prevention with id {id} not found");
+            throw new NotFoundException($"Injury prevention record with id {id} not found");
         }
     }
 
@@ -59,7 +59,7 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
         if (rowsAffected != 1)
         {
             _logger.LogError("Invalid injury prevention id {id}. No records were deleted.", id);
-            throw new NotFoundException($"Injury prevention with id {id} not found");
+            throw new NotFoundException($"Injury prevention record with id {id} not found");
         }
     }
 }

@@ -33,8 +33,8 @@ public class CommonErrorCommandService: ICommonErrorCommandService
 
         if (rowsAffected != 1) //if no recored match this id then no rows will be affected
         {
-            _logger.LogError("Invalid injury prevention id {id}. No recored were updated", id);
-            throw new NotFoundException($"Injury prevention with id {id} not found");
+            _logger.LogError("Invalid common errors id {id}. No recored were updated", id);
+            throw new NotFoundException($"Common errors record with id {id} not found");
         }
     }
     public Task<int> CreateCommonErrorsAsync(UpdateCreateCommonErrorDto dto)
@@ -51,5 +51,16 @@ public class CommonErrorCommandService: ICommonErrorCommandService
         domainEntity.CreatedBy = "user";
 
         return _commonErrorRepo.CreateCommonErrorsAsync(domainEntity);
+    }
+
+    public async Task DeleteCommonErrorsAsync(int id)
+    {
+        var rowsAffected = await _commonErrorRepo.DeleteCommonErrorsAsync(id);
+
+        if (rowsAffected != 1)//if no record matching id was found
+        {
+            _logger.LogError("Invalid common errors id {id}. No records were deleted.", id);
+            throw new NotFoundException($"Common errors record with id {id} not found.");
+        }
     }
 }

@@ -42,7 +42,7 @@ public class StrokePhaseService :IStrokePhaseService
         if (rowsAffected != 1) //if no record was updated because none could be found with this id
         {
             _logger.LogError("Invalid stroke phase id {id}. No records were updated", id);
-            throw new NotFoundException($"Stroke Phase with id {id} not found");
+            throw new NotFoundException($"Stroke Phase record with id {id} not found");
         }
     }
 }
