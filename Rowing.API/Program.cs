@@ -28,6 +28,7 @@ builder.Services.AddScoped<IInjuryPreventionQueryService, InjuryPreventionQueryS
 builder.Services.AddScoped<ICommonErrorRepository, CommonErrorRepository>();
 builder.Services.AddScoped<ICommonErrorQueryService, CommonErrorQueryService>();
 builder.Services.AddScoped<ICommonErrorCommandService, CommonErrorCommandService>();
+builder.Services.AddScoped<ITechniqueDrillRepository, TechniqueDrillRepository>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
