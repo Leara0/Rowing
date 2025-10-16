@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using Rowing.Application.CommonErrors.CommandServices;
 using Rowing.Application.CommonErrors.QueryServices;
+using Rowing.Application.DrillTechniqueUseCase.CommandServices;
+using Rowing.Application.DrillTechniqueUseCase.QueryServices;
 using Rowing.Application.InjuryPreventionUseCases;
 using Rowing.Application.Interfaces;
 using Rowing.Application.StrokePhase;
@@ -19,7 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
     new MySqlConnectionFactory(builder.Configuration.GetConnectionString("rowing")));
 
-//repository registration
+//dependency injection
 builder.Services.AddScoped<IStrokePhaseRepository, StrokePhaseRepository>();
 builder.Services.AddScoped<IStrokePhaseService, StrokePhaseService>();
 builder.Services.AddScoped<IInjuryPreventionRepository, InjuryPreventionRepository>();
@@ -29,6 +31,8 @@ builder.Services.AddScoped<ICommonErrorRepository, CommonErrorRepository>();
 builder.Services.AddScoped<ICommonErrorQueryService, CommonErrorQueryService>();
 builder.Services.AddScoped<ICommonErrorCommandService, CommonErrorCommandService>();
 builder.Services.AddScoped<ITechniqueDrillRepository, TechniqueDrillRepository>();
+builder.Services.AddScoped<ITechniqueDrillQueryService, TechniqueDrillQueryService>();
+builder.Services.AddScoped<ITechniqueDrillCommandService, TechniqueDrillCommandService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

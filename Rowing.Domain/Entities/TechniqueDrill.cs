@@ -68,6 +68,4 @@ public class TechniqueDrill
             throw new ArgumentException("Progression is required", nameof(progression));
         Progression = progression;
     }
-    
-
 }

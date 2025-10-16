@@ -7,14 +7,11 @@ namespace Rowing.Application.InjuryPreventionUseCases;
 public class InjuryPreventionQueryService : IInjuryPreventionQueryService
 {
     private readonly IInjuryPreventionRepository _injuryRepo;
-    private readonly IStrokePhaseRepository _strokeRepo;
     private readonly ILogger<InjuryPreventionQueryService> _logger;
 
-    public InjuryPreventionQueryService(IInjuryPreventionRepository injuryRepo, IStrokePhaseRepository strokeRepo,
-        ILogger<InjuryPreventionQueryService> logger)
+    public InjuryPreventionQueryService(IInjuryPreventionRepository injuryRepo, ILogger<InjuryPreventionQueryService> logger)
     {
         _injuryRepo = injuryRepo;
-        _strokeRepo = strokeRepo;
         _logger = logger;
     }
 

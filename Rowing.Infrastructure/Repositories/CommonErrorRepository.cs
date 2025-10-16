@@ -91,23 +91,15 @@ public class CommonErrorRepository : ICommonErrorRepository
     }
 
 
-    public CommonError MapToDomain(CommonErrorDbDto dto)
+    public CommonError MapToDomain(CommonErrorDbDto model)
     {
-        var domainEntity = new CommonError
+        return new CommonError(model.name, model.description, model.phase_id, model.phase_name, model.cause,
+            model.correction_strategy, model.related_injury_id, model.related_injury_body_area)
         {
-            ErrorId = dto.error_id,
-            IsVerified = dto.is_verified,
-            CreatedAt = dto.created_at,
-            CreatedBy = dto.created_by
+            ErrorId = model.error_id,
+            IsVerified = model.is_verified,
+            CreatedAt = model.created_at,
+            CreatedBy = model.created_by
         };
-        domainEntity.SetName(dto.name);
-        domainEntity.SetDescription(dto.description);
-        domainEntity.SetStrokePhaseId(dto.phase_id);
-        domainEntity.SetStrokePhaseName(dto.phase_name);
-        domainEntity.SetCause(dto.cause);
-        domainEntity.SetCorrectionStrategy(dto.correction_strategy);
-        domainEntity.SetRelatedInjuryId(dto.related_injury_id);
-        domainEntity.SetRelatedInjuryBodyArea(dto.related_injury_body_area);
-        return domainEntity;
     }
 }

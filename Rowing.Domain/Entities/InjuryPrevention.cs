@@ -24,6 +24,17 @@ public class InjuryPrevention
         SetPreventionStrategy(prevention);
         SetStrengtheningExercises(strengthening);
     }
+    
+    public InjuryPrevention(string bodyArea, string injuryType, string prevention, string strengthening, 
+        int criticalPhaseId, string riskPhaseName)
+    {
+        SetBodyArea(bodyArea);
+        SetInjuryType(injuryType);
+        SetPreventionStrategy(prevention);
+        SetStrengtheningExercises(strengthening);
+        SetCriticalPhaseId(criticalPhaseId);
+        SetRiskPhaseName(riskPhaseName);
+    }
 
     public void SetBodyArea(string bodyArea)
     {
