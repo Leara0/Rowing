@@ -32,4 +32,15 @@ public class TechniqueDrillCommandService : ITechniqueDrillCommandService
             throw new NotFoundException($"Technique drill record with id {id} not found");
         }
     }
+
+    public async Task<int> CreateTechniqueDrillAsync(UpdateCreateTechniqueDrillDto dto)
+    {
+        var domainEntity = new TechniqueDrill(dto.Name, dto.FocusArea, dto.Description, dto.ExecutionSteps,
+            dto.CoachingPoints, dto.Progression);
+        domainEntity.IsVerified = false;
+        domainEntity.CreatedAt = DateTime.UtcNow;
+        domainEntity.CreatedBy = "user";
+
+        return await _drillRepo.CreateTechniqueDrillAsync(domainEntity);
+    }
 }

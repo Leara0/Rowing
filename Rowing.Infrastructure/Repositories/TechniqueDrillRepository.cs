@@ -55,6 +55,29 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
         return rowsAffected;
     }
 
+    public async Task<int> CreateTechniqueDrillAsync(TechniqueDrill model)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var sql = @"INSERT INTO (name, focus_area, description, execution_steps, coaching_points_progression,
+            is_verified, created_at, created_by) VALUES (@name, @focusArea, @description, @executionSteps,
+            @coachingPoints, @progression, @isVerified, @createdAt, @createdBy);
+            SELECT LAST_INSERT_ID()";
+
+        var newId = await conn.ExecuteScalarAsync<int>(sql, new
+        {
+            name = model.Name,
+            focusArea = model.FocusArea,
+            description = model.Description,
+            executionSteps = model.ExecutionSteps,
+            coachingPoints = model.CoachingPoints,
+            progression = model.Progression,
+            isVerified = model.IsVerified,
+            createdAt = model.CreatedAt,
+            createdBy = model.CreatedBy
+        });
+        return newId;
+    }
+
     public TechniqueDrill MapToDomain(TechniqueDrillDbDto model)
     {
         return new TechniqueDrill(model.name, model.focus_area, model.description, model.execution_steps,

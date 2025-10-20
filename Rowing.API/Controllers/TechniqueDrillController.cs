@@ -36,11 +36,13 @@ public class TechniqueDrillController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, UpdateCreateTechniqueDrillDto drillDto)
+    public async Task<ActionResult> Update(int id, UpdateCreateTechniqueDrillDto dto)
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
         try
         {
-            _commandService.UpdateTechniqueDrillAsync(id, drillDto);
+            _commandService.UpdateTechniqueDrillAsync(id, dto);
             return NoContent();
         }
         catch (NotFoundException ex)
@@ -51,9 +53,27 @@ public class TechniqueDrillController : Controller
         {
             return BadRequest(ex.Message);
         }
-        
-        
-        
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Create(UpdateCreateTechniqueDrillDto dto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            var newId = await _commandService.CreateTechniqueDrillAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
         throw new NotImplementedException();
     }
 }
