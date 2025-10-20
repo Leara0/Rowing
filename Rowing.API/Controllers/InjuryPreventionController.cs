@@ -25,8 +25,8 @@ public class InjuryPreventionController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<InjuryPreventionDto>>> GetAll()
     {
-        var result = await _queryService.GetAllInjuryPreventionsAsync();
-        return Ok(result);
+        var results = await _queryService.GetAllInjuryPreventionsAsync();
+        return Ok(results);
         //call service layer to get all injury prevention datas
         //SL calls repo to get all data
 

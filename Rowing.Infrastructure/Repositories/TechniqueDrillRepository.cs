@@ -22,7 +22,19 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
             ("SELECT * FROM technique_drills");
         return TechniqueDrillDbModels.Select(MapToDomain);
     }
-    
+
+    public async Task<TechniqueDrill?> GetTechniqueDrillByIdAsync(int id)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var TechniqueDrillDbModel = await conn.QuerySingleOrDefaultAsync<TechniqueDrillDbDto>
+            ("SELECT * FROM technique_drills WHERE drill_id = @id", new { id });
+
+        if (TechniqueDrillDbModel == null)
+            return null;
+        
+        return MapToDomain(TechniqueDrillDbModel);
+    }
+
     public TechniqueDrill MapToDomain(TechniqueDrillDbDto model)
     {
         return new TechniqueDrill(model.name, model.focus_area, model.description, model.execution_steps,

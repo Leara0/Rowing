@@ -17,8 +17,8 @@ public class InjuryPreventionQueryService : IInjuryPreventionQueryService
 
     public async Task<IEnumerable<InjuryPreventionDto>> GetAllInjuryPreventionsAsync()
     {
-        var domainEntity = await _injuryRepo.GetAllInjuryPreventionsAsync();
-        return domainEntity.Select(entity =>
+        var domainEntities = await _injuryRepo.GetAllInjuryPreventionsAsync();
+        return domainEntities.Select(entity =>
         {
             var dto = new InjuryPreventionDto(entity);
             dto.RiskPhase = new StrokePhaseWrapperDto

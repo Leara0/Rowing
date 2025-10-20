@@ -25,8 +25,8 @@ public class CommonErrorController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CommonErrorDto>>> GetAll()
     {
-        var result = await _queryService.GetAllCommonErrorsAsync();
-        return Ok(result);
+        var results = await _queryService.GetAllCommonErrorsAsync();
+        return Ok(results);
     }
 
     [HttpGet("{id}")]

@@ -18,8 +18,8 @@ public class CommonErrorQueryService: ICommonErrorQueryService
 
     public async Task<IEnumerable<CommonErrorDto>> GetAllCommonErrorsAsync()
     {
-        var domainEntity = await _commonErrorRepo.GetAllCommonErrorsAsync();
-        return domainEntity.Select(entity =>
+        var domainEntities = await _commonErrorRepo.GetAllCommonErrorsAsync();
+        return domainEntities.Select(entity =>
         {
             var dto = new CommonErrorDto(entity);
             dto.RiskPhase = new StrokePhaseWrapperDto

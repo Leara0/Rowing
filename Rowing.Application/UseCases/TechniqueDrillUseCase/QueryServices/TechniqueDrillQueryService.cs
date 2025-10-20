@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Rowing.Application.Exceptions;
 using Rowing.Application.Interfaces;
 
 namespace Rowing.Application.DrillTechniqueUseCase.QueryServices;
@@ -16,7 +17,13 @@ public class TechniqueDrillQueryService : ITechniqueDrillQueryService
 
     public async Task<IEnumerable<TechniqueDrillDto>> GetAllTechniqueDrillAsync()
     {
-        var domainEntity = await _drillRepo.GetAllTechniqueDrillAsync();
-        return domainEntity.Select(x => new TechniqueDrillDto(x));
+        var domainEntities = await _drillRepo.GetAllTechniqueDrillAsync();
+        return domainEntities.Select(x => new TechniqueDrillDto(x));
+    }
+
+    public async Task<TechniqueDrillDto?> GetTechniqueDrillByIdAsync(int id)
+    {
+        var domainEntity = await _drillRepo.GetTechniqueDrillByIdAsync(id);
+        return domainEntity == null ? null : new TechniqueDrillDto(domainEntity);
     }
 }

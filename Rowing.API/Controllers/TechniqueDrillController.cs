@@ -23,7 +23,14 @@ public class TechniqueDrillController : Controller
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TechniqueDrillDto>>> GetAll()
     {
-        var result = await _queryService.GetAllTechniqueDrillAsync();
-        return Ok(result);
+        var results = await _queryService.GetAllTechniqueDrillAsync();
+        return Ok(results);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TechniqueDrillDto>> GetById(int id)
+    {
+        var result = await _queryService.GetTechniqueDrillByIdAsync(id);
+        return result == null ? NotFound() : Ok(result);
     }
 }

@@ -21,8 +21,8 @@ public class StrokePhasesController : ControllerBase
     public async Task<ActionResult<IEnumerable<StrokePhaseDto>>> GetAll()
     {
         _logger.LogInformation("getting the stroke phases");
-        var result = await _strokeService.GetAllStrokePhasesAsync();
-        return Ok(result);
+        var results = await _strokeService.GetAllStrokePhasesAsync();
+        return Ok(results);
     }
 
     [HttpGet("{id}")]

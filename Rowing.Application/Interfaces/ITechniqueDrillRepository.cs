@@ -5,4 +5,5 @@ namespace Rowing.Application.Interfaces;
 public interface ITechniqueDrillRepository
 {
     public Task<IEnumerable<TechniqueDrill>> GetAllTechniqueDrillAsync();
+    public Task<TechniqueDrill?> GetTechniqueDrillByIdAsync(int id);
 }
