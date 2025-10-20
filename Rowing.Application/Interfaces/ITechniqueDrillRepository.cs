@@ -8,4 +8,5 @@ public interface ITechniqueDrillRepository
     public Task<TechniqueDrill?> GetTechniqueDrillByIdAsync(int id);
     public Task<int> UpdateTechniqueDrillAsync(TechniqueDrill model);
     public Task<int> CreateTechniqueDrillAsync(TechniqueDrill model);
+    public Task<int> DeleteTechniqueDrillAsync(int id);
 }

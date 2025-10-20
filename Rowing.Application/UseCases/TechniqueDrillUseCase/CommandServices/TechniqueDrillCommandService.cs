@@ -28,8 +28,8 @@ public class TechniqueDrillCommandService : ITechniqueDrillCommandService
 
         if (rowsAffected != 1)
         {
-            _logger.LogError("Invalid technique drill id {id}. No records were updated", id);
-            throw new NotFoundException($"Technique drill record with id {id} not found");
+            _logger.LogError("Invalid technique drills id {id}. No records were updated", id);
+            throw new NotFoundException($"Technique drills record with id {id} not found");
         }
     }
 
@@ -42,5 +42,16 @@ public class TechniqueDrillCommandService : ITechniqueDrillCommandService
         domainEntity.CreatedBy = "user";
 
         return await _drillRepo.CreateTechniqueDrillAsync(domainEntity);
+    }
+
+    public async Task DeleteTechniqueDrillAsync(int id)
+    {
+        var rowsAffected = await _drillRepo.DeleteTechniqueDrillAsync(id);
+
+        if (rowsAffected != 1)
+        {
+            _logger.LogError("Invalid technique drills id {id}. No records were deleted.", id);
+            throw new NotFoundException($"Technique drills record with id {id} not found");
+        }
     }
 }

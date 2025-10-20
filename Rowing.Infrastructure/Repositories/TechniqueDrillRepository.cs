@@ -58,9 +58,9 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
     public async Task<int> CreateTechniqueDrillAsync(TechniqueDrill model)
     {
         using var conn = _connectionFactory.CreateConnection();
-        var sql = @"INSERT INTO (name, focus_area, description, execution_steps, coaching_points_progression,
-            is_verified, created_at, created_by) VALUES (@name, @focusArea, @description, @executionSteps,
-            @coachingPoints, @progression, @isVerified, @createdAt, @createdBy);
+        var sql = @"INSERT INTO technique_drills (name, focus_area, description, execution_steps, coaching_points, 
+            progression, is_verified, created_at, created_by) VALUES (@name, @focusArea, @description, 
+            @executionSteps, @coachingPoints, @progression, @isVerified, @createdAt, @createdBy);
             SELECT LAST_INSERT_ID()";
 
         var newId = await conn.ExecuteScalarAsync<int>(sql, new
@@ -76,6 +76,14 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
             createdBy = model.CreatedBy
         });
         return newId;
+    }
+
+    public async Task<int> DeleteTechniqueDrillAsync(int id)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var rowsAffected = await conn.ExecuteAsync("DELETE FROM technique_drills WHERE drill_id = @id",
+            new { id });
+        return rowsAffected;
     }
 
     public TechniqueDrill MapToDomain(TechniqueDrillDbDto model)

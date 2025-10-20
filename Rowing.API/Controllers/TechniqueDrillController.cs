@@ -74,6 +74,14 @@ public class TechniqueDrillController : Controller
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await _commandService.DeleteTechniqueDrillAsync(id);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 }
