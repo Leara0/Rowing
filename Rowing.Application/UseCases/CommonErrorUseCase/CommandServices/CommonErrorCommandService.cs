@@ -33,7 +33,7 @@ public class CommonErrorCommandService: ICommonErrorCommandService
 
         if (rowsAffected != 1) //if no recored match this id then no rows will be affected
         {
-            _logger.LogError("Invalid common errors id {id}. No recored were updated", id);
+            _logger.LogError("Invalid common errors id {id}. No records were updated", id);
             throw new NotFoundException($"Common errors record with id {id} not found");
         }
     }

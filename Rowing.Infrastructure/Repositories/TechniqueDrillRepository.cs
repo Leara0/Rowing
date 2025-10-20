@@ -35,6 +35,26 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
         return MapToDomain(TechniqueDrillDbModel);
     }
 
+    public async Task<int> UpdateTechniqueDrillAsync(TechniqueDrill model)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var sql = @"UPDATE technique_drills SET name = @name, focus_area = @focusArea, description = @description,
+            execution_steps = @executionSteps, coaching_points = @coachingPoints, progression = @progression,
+            is_verified = @isVerified WHERE drill_id = @id";
+        var rowsAffected = await conn.ExecuteAsync(sql, new
+        {
+            name = model.Name,
+            focusArea = model.FocusArea,
+            description = model.Description,
+            executionSteps = model.ExecutionSteps,
+            coachingPoints = model.CoachingPoints,
+            progression = model.Progression,
+            isVerified = model.IsVerified,
+            id = model.DrillId
+        });
+        return rowsAffected;
+    }
+
     public TechniqueDrill MapToDomain(TechniqueDrillDbDto model)
     {
         return new TechniqueDrill(model.name, model.focus_area, model.description, model.execution_steps,

@@ -16,5 +16,7 @@ public class UpdateCreateTechniqueDrillDto
     public string ExecutionSteps { get; set; }
     [Required]
     public string CoachingPoints { get; set; }
+    [Required]
+    public string Progression { get; set; }
 
 }

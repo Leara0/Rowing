@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rowing.Application.DrillTechniqueUseCase.CommandServices;
 using Rowing.Application.DrillTechniqueUseCase.QueryServices;
+using Rowing.Application.Exceptions;
 
 namespace Rowing.API.Controllers;
 
@@ -32,5 +33,27 @@ public class TechniqueDrillController : Controller
     {
         var result = await _queryService.GetTechniqueDrillByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Update(int id, UpdateCreateTechniqueDrillDto drillDto)
+    {
+        try
+        {
+            _commandService.UpdateTechniqueDrillAsync(id, drillDto);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
+        
+        
+        throw new NotImplementedException();
     }
 }
