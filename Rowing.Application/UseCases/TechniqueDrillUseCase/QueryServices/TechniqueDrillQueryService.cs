@@ -13,4 +13,10 @@ public class TechniqueDrillQueryService : ITechniqueDrillQueryService
         _drillRepo = drillRepo;
         _logger = logger;
     }
+
+    public async Task<IEnumerable<TechniqueDrillDto>> GetAllTechniqueDrillAsync()
+    {
+        var domainEntity = await _drillRepo.GetAllTechniqueDrillAsync();
+        return domainEntity.Select(x => new TechniqueDrillDto(x));
+    }
 }

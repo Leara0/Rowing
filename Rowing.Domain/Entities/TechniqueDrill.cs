@@ -2,6 +2,7 @@ namespace Rowing.Domain.Entities;
 
 public class TechniqueDrill
 {
+    public int DrillId { get; set; }
     public string Name { get; private set; }
     public string FocusArea { get; private set; }
     public string Description { get; private set; }

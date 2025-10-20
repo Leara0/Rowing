@@ -21,8 +21,10 @@ public class CommonErrorDto
         ErrorId = model.ErrorId;
         Name = model.Name;
         Description = model.Description;
+        // risk phase needs to be set separately
         Cause = model.Cause;
         CorrectionStrategy = model.CorrectionStrategy;
+        // related injury body area needs to be set separately
         IsVerified = model.IsVerified;
         CreatedAt = model.CreatedAt;
         CreatedBy = model.CreatedBy;

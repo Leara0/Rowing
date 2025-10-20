@@ -23,8 +23,8 @@ public class CommonErrorRepository : ICommonErrorRepository
             INNER JOIN stroke_phases as sp ON ce.phase_id = sp.phase_id
             INNER JOIN injury_prevention as ip ON ce.related_injury_id = ip.prevention_id";
         
-        var commonErrorsDbModel = await conn.QueryAsync<CommonErrorDbDto>(sql);
-        return commonErrorsDbModel.Select(MapToDomain);
+        var commonErrorsDbModels = await conn.QueryAsync<CommonErrorDbDto>(sql);
+        return commonErrorsDbModels.Select(MapToDomain);
     }
 
     public async Task<CommonError?> GetCommonErrorByIdAsync(int id)

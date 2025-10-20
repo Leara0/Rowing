@@ -2,6 +2,7 @@ namespace Rowing.Infrastructure.DbModels;
 
 public class TechniqueDrillDbDto
 {
+    public int drill_id { get; set; }
     public string name { get; set; }
     public string focus_area { get; set; }
     public string description { get; set; }

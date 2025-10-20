@@ -1,3 +1,4 @@
+using Dapper;
 using Rowing.Application.Interfaces;
 using Rowing.Domain.Entities;
 using Rowing.Infrastructure.Connection;
@@ -14,13 +15,20 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
         _connectionFactory = connectionFactory;
     }
 
-    
+    public async Task<IEnumerable<TechniqueDrill>> GetAllTechniqueDrillAsync()
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var TechniqueDrillDbModels = await conn.QueryAsync<TechniqueDrillDbDto>
+            ("SELECT * FROM technique_drills");
+        return TechniqueDrillDbModels.Select(MapToDomain);
+    }
     
     public TechniqueDrill MapToDomain(TechniqueDrillDbDto model)
     {
         return new TechniqueDrill(model.name, model.focus_area, model.description, model.execution_steps,
             model.coaching_points, model.progression)
         {
+            DrillId = model.drill_id,
             CreatedAt = model.created_at,
             CreatedBy = model.created_by,
             IsVerified = model.is_verified

@@ -21,9 +21,9 @@ public class StrokePhaseRepository : IStrokePhaseRepository
         //here is where we create a new connection for one time use
         using var conn = _connectionFactory.CreateConnection();
 
-        var resultsDbModel = await conn
+        var resultsDbModels = await conn
             .QueryAsync<StrokePhaseDbDto>("SELECT * FROM stroke_phases");
-        return resultsDbModel.Select(x => MapToDomain(x));
+        return resultsDbModels.Select(x => MapToDomain(x));
     }
 
     public async Task<StrokePhase?> GetStrokePhaseByIdAsync(int id)

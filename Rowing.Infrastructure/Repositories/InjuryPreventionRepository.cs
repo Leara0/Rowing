@@ -23,8 +23,8 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
             FROM injury_prevention AS ip 
             INNER JOIN stroke_phases AS sp ON ip.critical_phase_id = sp.phase_id";
 
-        var preventionDbModel = await conn.QueryAsync<InjuryPreventionDbDto>(sql);
-        return preventionDbModel.Select(MapToDomain);
+        var preventionDbModels = await conn.QueryAsync<InjuryPreventionDbDto>(sql);
+        return preventionDbModels.Select(MapToDomain);
     }
 
     public async Task<InjuryPrevention?> GetInjuryPreventionByIdAsync(int id)
