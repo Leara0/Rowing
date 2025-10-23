@@ -6,6 +6,7 @@ using Rowing.Application.DrillTechniqueUseCase.QueryServices;
 using Rowing.Application.InjuryPreventionUseCases;
 using Rowing.Application.Interfaces;
 using Rowing.Application.StrokePhase;
+using Rowing.Infrastructure;
 using Rowing.Infrastructure.Connection;
 using Rowing.Infrastructure.Repositories;
 
@@ -17,12 +18,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
-var connectionString = Environment.GetEnvironmentVariable("MYSQLCONNECTIONSTRING")
-                       ?? builder.Configuration.GetConnectionString("rowing");
 
 //add database connection factory 
 builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
-    new MySqlConnectionFactory(connectionString));
+    new MySqlConnectionFactory(builder.Configuration.GetConnectionString("rowing")));
 
 //dependency injection
 builder.Services.AddScoped<IStrokePhaseRepository, StrokePhaseRepository>();
@@ -46,7 +45,7 @@ builder.Services.AddControllers()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
