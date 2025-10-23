@@ -1,5 +1,4 @@
 using Dapper;
-using Mysqlx.Prepare;
 using Rowing.Application.Interfaces;
 using Rowing.Domain.Entities;
 using Rowing.Infrastructure.Connection;

@@ -18,10 +18,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")
+                       ?? builder.Configuration.GetConnectionString("rowing");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string not found. Looked for 'AZURE_SQL_CONNECTIONSTRING' and 'rowing'");
+}
 
 //add database connection factory 
 builder.Services.AddSingleton<IDbConnectionFactory>(provider =>
-    new MySqlConnectionFactory(builder.Configuration.GetConnectionString("rowing")));
+    new SqlConnectionFactory(connectionString));
 
 //dependency injection
 builder.Services.AddScoped<IStrokePhaseRepository, StrokePhaseRepository>();
