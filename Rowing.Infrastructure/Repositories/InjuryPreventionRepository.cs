@@ -63,9 +63,10 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
     {
         using var conn = _connectionFactory.CreateConnection();
         var sql = @"INSERT INTO injury_prevention (body_area, injury_type, prevention_strategy, strengthening_exercises,
-            critical_phase_id, is_verified, created_at, created_by) VALUES (@body_area, @injury_type, 
-            @prevention_strategy, @strengthening_exercises,@critical_phase_id, @is_verified, @created_at, @created_by);
-            SELECT LAST_INSERT_ID()";
+            critical_phase_id, is_verified, created_at, created_by) 
+            OUTPUT INSERTED.prevention_id
+            VALUES (@body_area, @injury_type, 
+            @prevention_strategy, @strengthening_exercises,@critical_phase_id, @is_verified, @created_at, @created_by);";
         var newId = await conn.ExecuteScalarAsync<int>(sql, new
         {
             body_area = model.BodyArea,

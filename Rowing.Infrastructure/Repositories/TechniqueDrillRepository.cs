@@ -59,9 +59,10 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
     {
         using var conn = _connectionFactory.CreateConnection();
         var sql = @"INSERT INTO technique_drills (name, focus_area, description, execution_steps, coaching_points, 
-            progression, is_verified, created_at, created_by) VALUES (@name, @focusArea, @description, 
-            @executionSteps, @coachingPoints, @progression, @isVerified, @createdAt, @createdBy);
-            SELECT LAST_INSERT_ID()";
+            progression, is_verified, created_at, created_by) 
+            OUTPUT INSERTED.drill_id
+            VALUES (@name, @focusArea, @description, 
+            @executionSteps, @coachingPoints, @progression, @isVerified, @createdAt, @createdBy);";
 
         var newId = await conn.ExecuteScalarAsync<int>(sql, new
         {

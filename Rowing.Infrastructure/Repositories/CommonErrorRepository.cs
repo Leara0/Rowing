@@ -21,7 +21,7 @@ public class CommonErrorRepository : ICommonErrorRepository
         var sql = @"SELECT ce.*, sp.name AS phase_name, ip.body_area AS related_injury_body_area 
             FROM common_errors AS ce
             INNER JOIN stroke_phases as sp ON ce.phase_id = sp.phase_id
-            INNER JOIN injury_prevention as ip ON ce.related_injury_id = ip.prevention_id";
+            INNER JOIN injury_prevention as ip ON ce.related_injury_id = ip.prevention_id;";
         
         var commonErrorsDbModels = await conn.QueryAsync<CommonErrorDbDto>(sql);
         return commonErrorsDbModels.Select(MapToDomain);
@@ -34,7 +34,7 @@ public class CommonErrorRepository : ICommonErrorRepository
             FROM common_errors as ce
             INNER JOIN stroke_phases AS sp ON ce.phase_id = sp.phase_id
             INNER JOIN injury_prevention AS ip ON ce.related_injury_id = ip.prevention_id
-            WHERE ce.error_id = @id";
+            WHERE ce.error_id = @id;";
         var commonErrorDbModel = await conn.QuerySingleOrDefaultAsync<CommonErrorDbDto>(sql, new { id });
         return commonErrorDbModel == null ? null : MapToDomain(commonErrorDbModel);
     }
@@ -44,7 +44,7 @@ public class CommonErrorRepository : ICommonErrorRepository
         using var conn = _connectionFactory.CreateConnection();
         var sql = @"UPDATE common_errors SET name = @name, description = @description, phase_id = @phase_id,
             cause = @cause, correction_strategy = @strategy, related_injury_id = @relatedId, is_verified = @verified
-            WHERE error_id = @id";
+            WHERE error_id = @id;";
         var rowsAffected = await conn.ExecuteAsync(sql, new
         {
             name = model.Name,
@@ -64,9 +64,11 @@ public class CommonErrorRepository : ICommonErrorRepository
     {
         using var conn = _connectionFactory.CreateConnection();
         var sql = @"INSERT INTO common_errors (name, description, phase_id, cause, correction_strategy,
-            related_injury_id, is_verified, created_at, created_by) VALUES (@name, @description, @phaseId, @cause, @correctionStrategy,
-            @relatedInjuryId, @isVerified, @createdAt, @createdBy);
-            SELECT LAST_INSERT_ID()";
+            related_injury_id, is_verified, created_at, created_by) 
+            OUTPUT INSERTED.error_id
+            VALUES (@name, @description, @phaseId, @cause, @correctionStrategy,
+            @relatedInjuryId, @isVerified, @createdAt, @createdBy);";
+        
         var newId = await conn.ExecuteScalarAsync<int>(sql, new
         {
             name = model.Name,
@@ -85,7 +87,7 @@ public class CommonErrorRepository : ICommonErrorRepository
     public async Task<int> DeleteCommonErrorsAsync(int id)
     {
         using var conn = _connectionFactory.CreateConnection();
-        var rowsAffected = await conn.ExecuteAsync("DELETE FROM common_errors WHERE error_id = @id",
+        var rowsAffected = await conn.ExecuteAsync("DELETE FROM common_errors WHERE error_id = @id;",
             new { id });
         return rowsAffected;
     }
