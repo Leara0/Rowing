@@ -7,6 +7,7 @@ public interface IInjuryPreventionRepository
     public Task<InjuryPrevention?> GetInjuryPreventionByIdAsync(int id);
     public Task<int> UpdateInjuryPreventionAsync(InjuryPrevention model);
     public Task<int> CreateInjuryPreventionAsync(InjuryPrevention model);
+    public Task<bool> HasDependentRecordsAsync(int injuryId);
     public Task<int> DeleteInjuryPreventionAsync(int id);
 
 }

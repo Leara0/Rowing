@@ -32,10 +32,6 @@ public class CommonErrorController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CommonErrorDto>> GetById(int id)
     {
-        //steps:
-        //call the application layer with the id
-        //app layer calls the repo with the id
-        //return the record or not found exception
         var result = await _queryService.GetCommonErrorByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
     }
@@ -43,12 +39,6 @@ public class CommonErrorController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCommonErrors(int id, UpdateCreateCommonErrorDto dto)
     {
-        //steps:
-        //check validity of model state
-        //send the dto to the application layer (pull out enum to num, set admin fields)
-        //send to repository (returns num of rows affected)
-        //app throws not found exception if rows != 1??
-        //app throws argument exception if domain validation fails
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         try //try to send the dto to the database

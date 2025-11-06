@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Rowing.Application.DTOs;
 using Rowing.Application.Exceptions;
 using Rowing.Application.Interfaces;
 using Rowing.Domain.Entities;
@@ -52,6 +53,10 @@ public class InjuryPreventionCommandService : IInjuryPreventionCommandService
 
     public async Task DeleteInjuryPreventionAsync(int id)
     {
+        if (await _injuryRepo.HasDependentRecordsAsync(id))
+        {
+            throw new DependencyException("Cannot delete: This injury prevention is referenced by common errors.");
+        }
         var rowsAffected = await _injuryRepo.DeleteInjuryPreventionAsync(id);
         //check what number we get back and create an error if it's not 1
         if (rowsAffected != 1)

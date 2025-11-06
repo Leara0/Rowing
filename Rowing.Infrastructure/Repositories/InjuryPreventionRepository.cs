@@ -81,6 +81,14 @@ public class InjuryPreventionRepository : IInjuryPreventionRepository
         return newId ;
     }
 
+    public async Task<bool> HasDependentRecordsAsync(int injuryId)
+    {
+        using var conn = _connectionFactory.CreateConnection();
+        var sql = "SELECT COUNT(*) FROM common_errors WHERE related_injury_id = @id";
+        var count = await conn.QuerySingleAsync<int>(sql, new { id = injuryId });
+        return count > 0;
+    }
+    
     public async Task<int> DeleteInjuryPreventionAsync(int id)
     {
         using var conn = _connectionFactory.CreateConnection();

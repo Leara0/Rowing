@@ -1,3 +1,5 @@
+using Rowing.Application.DTOs;
+
 namespace Rowing.Application.InjuryPreventionUseCases;
 
 public interface IInjuryPreventionCommandService
@@ -6,3 +8,4 @@ public interface IInjuryPreventionCommandService
     public Task<int> CreateInjuryPreventionAsync(UpdateCreateInjuryPreventionDto dto);
     public Task DeleteInjuryPreventionAsync(int id);
 }
+

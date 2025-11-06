@@ -35,6 +35,10 @@ public class InjuryPreventionController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<InjuryPreventionDto>> GetById(int id)
     {
+        //steps:
+        //call the application layer with the id
+        //app layer calls the repo with the id
+        //return the record or not found exception
         var result = await _queryService.GetInjuryPreventionByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
     }
@@ -42,7 +46,13 @@ public class InjuryPreventionController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateInjuryPrevention(int id, UpdateCreateInjuryPreventionDto dto)
     {
-        //check if the data is valid doing that model state thing
+        //steps:
+        //check validity of model state
+        //send the dto to the application layer (pull out enum to num, set admin fields)
+        //send to repository (returns num of rows affected)
+        //app throws not found exception if rows != 1??
+        //app throws argument exception if domain validation fails
+        
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         try //send the dto to the service layer
@@ -85,6 +95,11 @@ public class InjuryPreventionController : ControllerBase
         {
             await _commandService.DeleteInjuryPreventionAsync(id);
             return NoContent();
+        }
+        //this catches when you try to delete a referenced record
+        catch (DependencyException ex)
+        {
+            return BadRequest(new { error = ex.Message });
         }
         //this checks for any errors that are due to failure to pass domain validation 
         catch (NotFoundException ex)
