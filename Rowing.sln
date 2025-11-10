@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rowing.Domain", "Rowing.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rowing.Infrastructure", "Rowing.Infrastructure\Rowing.Infrastructure.csproj", "{6752FCBC-0491-4793-B7CD-8435AA39EFA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowingCompanion", "RowingCompanion\RowingCompanion.csproj", "{43534996-5D13-4294-87C6-D674F8A46AB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{6752FCBC-0491-4793-B7CD-8435AA39EFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6752FCBC-0491-4793-B7CD-8435AA39EFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6752FCBC-0491-4793-B7CD-8435AA39EFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43534996-5D13-4294-87C6-D674F8A46AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43534996-5D13-4294-87C6-D674F8A46AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43534996-5D13-4294-87C6-D674F8A46AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43534996-5D13-4294-87C6-D674F8A46AB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

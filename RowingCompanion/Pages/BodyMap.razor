@@ -1,0 +1,45 @@
+@page "/bodymap"
+
+<h3>Injury Prevention Guide</h3>
+
+<div style="position: relative; display: inline-block;">
+    <img src="images/female.svg" alt="Body diagram">
+    <!-- invisible box over the back area -->
+    <div @onmouseover="() => ShowInjury()"
+         @onmouseout="HideInjury"
+         style="position: absolute; top: 100px; left: 80px; width: 60px; height: 80px; background: rgba(255,0,0,0.2); cursor: pointer;">
+        
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(selectedBodyPart))
+{
+    <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h4>@selectedBodyPart</h4>
+        <p>@injuryInfo</p>
+    </div>
+}
+
+@code
+{
+    private string selectedBodyPart = "";
+    private string injuryInfo = "";
+
+    private void ShowInjury()
+    {
+        selectedBodyPart = "Back";
+        
+        //hardcoding this data for now
+
+        if (selectedBodyPart == "Back")
+        {
+            injuryInfo = "Common injury: Lumbar strain. Prevention: Keep chest open, avoid rounding back.";
+        }
+    }
+
+    private void HideInjury()
+    {
+        selectedBodyPart = "";
+        injuryInfo = "";
+    }
+}
