@@ -2,62 +2,89 @@
 @inject HttpClient Http
 @using RowingCompanion.Models
 
-<h3>Injury Prevention Guide</h3>
-
-<div style="position: relative; display: inline-block; width: 400px; height: 600px; 
+<div class="bodymap-container">
+    <div class="body-section">
+        <h2>Interactive Injury Prevention Map</h2>
+        <div class="body-image-wrapper">
+            <div style="position: relative; display: inline-block; width: 400px; height: 600px; 
             background-image: url('/images/female.png'); background-size: contain; background-repeat: no-repeat;">
-    
-    <div @onmouseover="ShowBackInjury"
-         @onmouseout="HideInjury"
-         style="position: absolute; top: 250px; left: 150px; width: 30px; height: 60px; 
+
+                <div @onmouseover="ShowBackInjury"
+                     @onmouseout="HideInjury"
+                     style="position: absolute; top: 230px; left: 150px; width: 30px; height: 60px; 
                 background: rgba(2,0,0,0.2); cursor: pointer;">
-    </div>
-    
-    <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 375px; left: 120px; width: 40px; height: 60px; 
-            background: rgba(2,0,0,0.2); cursor: pointer;">
-    </div>
-    <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 375px; left: 160px; width: 40px; height: 60px; 
+                </div>
+
+                <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 375px; left: 120px; width: 40px; height: 60px; 
+                     background: rgba(2,0,0,0.2); cursor: pointer;">
+                </div>
+                <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 375px; left: 160px; width: 40px; height: 60px; 
             background: rgba(0,0,2,0.2); cursor: pointer;">
+                </div>
+
+                <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 85px; left: 100px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+                <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 85px; left: 200px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+
+                <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 230px; left: 85px; width: 30px; height: 30px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+                <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 270px; left: 210px; width: 30px; height: 30px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+
+                <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 130px; left: 120px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+                <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 130px; left: 170px; width: 40px; height: 60px; 
+                     background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+
+                <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 230px; left: 110px; width: 40px; height: 60px; 
+                     background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+                <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
+                     style="position: absolute; top: 230px; left: 180px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 85px; left: 100px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
-    </div>
-    <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 85px; left: 200px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
-    </div>
-    
-    <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 230px; left: 85px; width: 30px; height: 30px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
-    </div>
-    <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 270px; left: 210px; width: 30px; height: 30px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
-    </div>
-    
-    <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 130px; left: 120px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
-    </div>
-    <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 130px; left: 180px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
-    </div>
-    
-    <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 230px; left: 110px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
-    </div>
-    <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
-         style="position: absolute; top: 230px; left: 180px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
+    <div class="info-panel">
+        <div class="injury-card @(string.IsNullOrEmpty(selectedBodyPart) ? "" : "active")">
+            <div class="card-header">
+                <h3>@(string.IsNullOrEmpty(selectedBodyPart) ? "Select a body area" : selectedBodyPart)</h3>
+            </div>
+            <div class=card-body>
+                @if (!string.IsNullOrEmpty(injuryInfo))
+                {
+                    <div class="injury-details">
+                        <p>@injuryInfo</p>
+                    </div>
+                }
+                else
+                {
+                    <p class="placeholder-text">Hover over any highlighted area on the body to see injury 
+                        prevention information.</p>
+                }
+            </div>
+        </div>
     </div>
 </div>
+
 
 <div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
     <h4>@selectedBodyPart</h4>
