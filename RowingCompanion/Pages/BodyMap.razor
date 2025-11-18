@@ -1,4 +1,6 @@
 @page "/bodymap"
+@inject HttpClient Http
+@using RowingCompanion.Models
 
 <h3>Injury Prevention Guide</h3>
 
@@ -7,8 +9,53 @@
     
     <div @onmouseover="ShowBackInjury"
          @onmouseout="HideInjury"
-         style="position: absolute; top: 100px; left: 80px; width: 60px; height: 80px; 
-                background: rgba(255,0,0,0.2); cursor: pointer;">
+         style="position: absolute; top: 250px; left: 150px; width: 30px; height: 60px; 
+                background: rgba(2,0,0,0.2); cursor: pointer;">
+    </div>
+    
+    <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 375px; left: 120px; width: 40px; height: 60px; 
+            background: rgba(2,0,0,0.2); cursor: pointer;">
+    </div>
+    <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 375px; left: 160px; width: 40px; height: 60px; 
+            background: rgba(0,0,2,0.2); cursor: pointer;">
+    </div>
+    
+    <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 85px; left: 100px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+    </div>
+    <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 85px; left: 200px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+    </div>
+    
+    <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 230px; left: 85px; width: 30px; height: 30px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+    </div>
+    <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 270px; left: 210px; width: 30px; height: 30px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+    </div>
+    
+    <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 130px; left: 120px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+    </div>
+    <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 130px; left: 180px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+    </div>
+    
+    <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 230px; left: 110px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
+    </div>
+    <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
+         style="position: absolute; top: 230px; left: 180px; width: 40px; height: 60px; 
+            background: rgba(0,255,0,0.2); cursor: pointer;">
     </div>
 </div>
 
@@ -20,13 +67,50 @@
 @code {
     private string selectedBodyPart = "Hover over a body part";
     private string injuryInfo = "Information will appear here";
-    
-    private void ShowBackInjury()
+    private List<InjuryPreventionDto> injuries = new();
+
+    protected override async Task OnInitializedAsync()
     {
-        selectedBodyPart = "Back";
-        injuryInfo = "Common injury: Lumbar strain. Prevention: Keep chest open, avoid rounding back.";
+        await LoadInjuryData();
     }
-    
+
+    private async Task LoadInjuryData()
+    {
+        try
+        {
+            injuries = await Http.GetFromJsonAsync<List<InjuryPreventionDto>>("api/injuryprevention");
+            Console.WriteLine($"Loaded {injuries.Count} injuries");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading injuries: {ex.Message}");
+        }
+        
+    }
+
+    private void ShowBackInjury() => ShowInjuryInfo("Back");
+    private void ShowKneeInjury() => ShowInjuryInfo("Knees");
+    private void ShowShoulderInjury() => ShowInjuryInfo("Shoulders");
+    private void ShowWristInjury() => ShowInjuryInfo("Wrists");
+    private void ShowRibInjury() => ShowInjuryInfo("Ribs");
+    private void ShowHipInjury() => ShowInjuryInfo("Hips");
+
+    private void ShowInjuryInfo(string bodyArea)
+    {
+        var injury = injuries.FirstOrDefault(i => i.BodyArea == bodyArea);
+
+        if (injury != null)
+        {
+            selectedBodyPart = injury.BodyArea;
+            injuryInfo = $"Injury: {injury.InjuryType}. Prevention: {injury.PreventionStrategy}. " +
+                         $"Exercises: {injury.StrengtheningExercises}";
+        }
+        else
+        {
+            selectedBodyPart = bodyArea;
+            injuryInfo = "No injury data available for this area";
+        }
+    }
     private void HideInjury()
     {
         selectedBodyPart = "Hover over a body part";

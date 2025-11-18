@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddCors();
 
 var connectionString = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")
                        ?? builder.Configuration.GetConnectionString("rowing");
@@ -58,6 +59,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(policy =>
+{
+    policy.AllowAnyOrigin() // any website can call this API
+        .AllowAnyMethod()   // allows GET, POST, PUT, DELETE etc
+        .AllowAnyHeader();  // allow any header in requests
+});
+
 
 app.MapControllers();
 app.Run();
