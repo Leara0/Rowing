@@ -8,12 +8,38 @@
 }
 
 .body-section {
-    flex: 0 0 600px;
+    flex: 1;
+    min-width: 0;
 }
 
 .body-section h2 {
     color: #2d3436;
     margin-bottom: 1.5rem;
+}
+
+.body-image {
+    position: relative;
+    width: min(100%, 40vh);
+    max-width: 500px; /* adjust this to make the image bigger or smaller */
+    aspect-ratio: 400 / 600;
+    background-image: url('/images/female.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    backgroound-position: center;
+    margin: 0 auto; /* centers it int he body-section */
+}
+
+.hotspot {
+    background: rgba(2,0,0,0.2); 
+    cursor: pointer;
+}
+
+.hotspot-bakc {
+    position: absolute; 
+    top: 230px; 
+    left: 150px; 
+    width: 30px; 
+    height: 60px; 
 }
 
 .info-panel {

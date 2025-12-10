@@ -6,13 +6,11 @@
     <div class="body-section">
         <h2>Interactive Injury Prevention Map</h2>
         <div class="body-image-wrapper">
-            <div style="position: relative; display: inline-block; width: 400px; height: 600px; 
-            background-image: url('/images/female.png'); background-size: contain; background-repeat: no-repeat;">
+            <div class="body-image">
 
                 <div @onmouseover="ShowBackInjury"
                      @onmouseout="HideInjury"
-                     style="position: absolute; top: 230px; left: 150px; width: 30px; height: 60px; 
-                background: rgba(2,0,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-back">
                 </div>
 
                 <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
