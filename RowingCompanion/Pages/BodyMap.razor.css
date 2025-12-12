@@ -20,7 +20,8 @@
 .body-image {
     position: relative;
     width: min(100%, 40vh);
-    max-width: 500px; /* adjust this to make the image bigger or smaller */
+    max-width: 500px; 
+    min-width: 300px;
     aspect-ratio: 400 / 600;
     background-image: url('/images/female.png');
     background-size: contain;
@@ -29,18 +30,7 @@
     margin: 0 auto; /* centers it int he body-section */
 }
 
-.hotspot {
-    background: rgba(2,0,0,0.2); 
-    cursor: pointer;
-}
 
-.hotspot-bakc {
-    position: absolute; 
-    top: 230px; 
-    left: 150px; 
-    width: 30px; 
-    height: 60px; 
-}
 
 .info-panel {
     flex: 1;
@@ -50,7 +40,7 @@
 .injury-card {
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04)
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
     overflow: hidden;
     transition: all 0.3 ease;
     border: 2px solid transparent;
@@ -86,3 +76,90 @@
     color: #95a5a6;
     font-style: italic;
 }
+
+.hotspot {
+    position: absolute;
+    cursor: pointer;
+    background: rgba(255, 0, 0, 0.2); 
+}
+
+.hotspot-back {
+    top: 20%;
+    left: 39%;
+    width: 5%;
+    height: 25%;
+}
+
+.hotspot-knee-left {
+    top: 65%;  
+    left: 30.5%;
+    width: 10%;
+    height: 8.3%;
+}
+.hotspot-knee-right {
+    top: 65%;
+    left: 41%; 
+    width: 10%;
+    height: 8.3%;
+}
+
+/* SHOULDERS */
+.hotspot-shoulder-left {
+    top: 15%;   
+    left: 25%; 
+    width: 10%;
+    height: 8%;
+}
+
+.hotspot-shoulder-right {
+    top: 15%;   
+    left: 48%;  
+    width: 10%;
+    height: 8%;
+}
+
+/* WRISTS */
+.hotspot-wrist-left {
+    top: 39%;  
+    left: 22%; 
+    width: 7%;
+    height: 4.5%;
+}
+
+.hotspot-wrist-right {
+    top: 47%;   
+    left: 53%;  
+    width: 7%;
+    height: 4.5%;
+}
+
+/* RIBS */
+.hotspot-rib-left {
+    top: 28%;   
+    left: 31%;  
+    width: 8%;
+    height: 10%;
+}
+
+.hotspot-rib-right {
+    top: 28%;   
+    left: 42%;  
+    width: 8%;
+    height: 10%;
+}
+
+/* HIPS */
+.hotspot-hip-left {
+    top: 37%;   
+    left: 29%;  
+    width: 9%;
+    height: 16.7%;
+}
+
+.hotspot-hip-right {
+    top: 37%;   
+    left: 45%; 
+    width: 8%;
+    height: 16.7%;
+}
+

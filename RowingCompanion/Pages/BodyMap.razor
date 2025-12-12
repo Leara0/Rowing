@@ -8,54 +8,43 @@
         <div class="body-image-wrapper">
             <div class="body-image">
 
-                <div @onmouseover="ShowBackInjury"
-                     @onmouseout="HideInjury"
+                <div @onmouseover="ShowBackInjury" @onmouseout="HideInjury"
                      class="hotspot hotspot-back">
                 </div>
 
                 <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 375px; left: 120px; width: 40px; height: 60px; 
-                     background: rgba(2,0,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-knee-left">
                 </div>
-                <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 375px; left: 160px; width: 40px; height: 60px; 
-            background: rgba(0,0,2,0.2); cursor: pointer;">
+               <div @onmouseover="ShowKneeInjury" @onmouseout="HideInjury"
+                    class="hotspot hotspot-knee-right">
                 </div>
 
                 <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 85px; left: 100px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-shoulder-left">
                 </div>
                 <div @onmouseover="ShowShoulderInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 85px; left: 200px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-shoulder-right">
                 </div>
 
                 <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 230px; left: 85px; width: 30px; height: 30px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-wrist-left">
                 </div>
                 <div @onmouseover="ShowWristInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 270px; left: 210px; width: 30px; height: 30px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-wrist-right">
                 </div>
 
                 <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 130px; left: 120px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-rib-left">
                 </div>
                 <div @onmouseover="ShowRibInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 130px; left: 170px; width: 40px; height: 60px; 
-                     background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-rib-right">
                 </div>
 
                 <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 230px; left: 110px; width: 40px; height: 60px; 
-                     background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-hip-left">
                 </div>
                 <div @onmouseover="ShowHipInjury" @onmouseout="HideInjury"
-                     style="position: absolute; top: 230px; left: 180px; width: 40px; height: 60px; 
-            background: rgba(0,255,0,0.2); cursor: pointer;">
+                     class="hotspot hotspot-hip-right">
                 </div>
             </div>
         </div>
