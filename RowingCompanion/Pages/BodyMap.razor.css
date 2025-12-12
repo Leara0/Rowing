@@ -2,7 +2,7 @@
     display: flex;
     gap: 2rem;
     padding: 2rem;
-    max-width: 1400px;
+    max-width: 1000px;
     margin: 0 auto;
     justify-content: center;
 }
@@ -31,9 +31,8 @@
 }
 
 
-
 .info-panel {
-    flex: 1;
+    flex: 1 400px;
     max-width: 400px;
 }
 
@@ -59,7 +58,8 @@
 
 .card-header h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: bold;
     color: white;
 }
 
@@ -67,9 +67,30 @@
     padding: 1.5rem;
 }
 
-.injury-details {
+.injury-section {
     line-height: 1.6;
     color: #2d3436;
+    margin-bottom: 1rem;
+}
+
+.injury-section h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.injury-section p {
+    font-size: 1rem;
+    color: #636e72;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.injury-section:last-child {
+    margin-bottom: 0;
 }
 
 .placeholder-text {
@@ -80,7 +101,34 @@
 .hotspot {
     position: absolute;
     cursor: pointer;
-    background: rgba(255, 0, 0, 0.2); 
+
+    /* Add subtle indication on hover */
+    transition: all 0.3s ease;
+}
+
+.hotspot:hover {
+    background: rgba(231, 76, 60, 0.15);  /* Very subtle red glow on hover */
+    border-radius: 50%;  
+    transform: scale(1.05);  /* Slight grow effect */
+}
+
+.hotspot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: rgba(231, 76, 60, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.hotspot:hover::after {
+    background: rgba(231, 76, 60, 0.8);
+    width: 10px;
+    height: 10px;
 }
 
 .hotspot-back {

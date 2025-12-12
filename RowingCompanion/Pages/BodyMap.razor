@@ -56,15 +56,28 @@
                 <h3>@(string.IsNullOrEmpty(selectedBodyPart) ? "Select a body area" : selectedBodyPart)</h3>
             </div>
             <div class=card-body>
-                @if (!string.IsNullOrEmpty(injuryInfo))
+                @if (!string.IsNullOrEmpty(selectedBodyPart))
                 {
-                    <div class="injury-details">
-                        <p>@injuryInfo</p>
+                    <div class="injury-section">
+                        <h4>Common Injury</h4>
+                        <p>@injuryType</p>
                     </div>
+                    <div class="injury-section">
+                        <h4>Prevention Strategy</h4>
+                        <p>@preventionStrategy</p>
+                    </div>
+                    <div class="injury-section">
+                        <h4>Strengthening Exercises</h4>
+                        <p>@strengtheningExercises</p>
+                    </div>
+                    @* <div class="injury-section">
+                        <h4>Critical Stroke Phase</h4>
+                        <p>@criticalPhase</p>
+                    </div> *@
                 }
                 else
                 {
-                    <p class="placeholder-text">Hover over any highlighted area on the body to see injury 
+                    <p class="placeholder-text">Hover over any red dot on the body to see injury 
                         prevention information.</p>
                 }
             </div>
@@ -73,14 +86,14 @@
 </div>
 
 
-<div style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
-    <h4>@selectedBodyPart</h4>
-    <p>@injuryInfo</p>
-</div>
-
 @code {
     private string selectedBodyPart = "Hover over a body part";
     private string injuryInfo = "Information will appear here";
+    private string injuryType = "";
+    private string preventionStrategy = "";
+    private string strengtheningExercises = "";
+    // private string criticalPhase = "";
+    
     private List<InjuryPreventionDto> injuries = new();
 
     protected override async Task OnInitializedAsync()
@@ -116,6 +129,10 @@
         if (injury != null)
         {
             selectedBodyPart = injury.BodyArea;
+            injuryType = injury.InjuryType;
+            preventionStrategy = injury.PreventionStrategy;
+            strengtheningExercises = injury.StrengtheningExercises;
+            //criticalPhase = injury.CriticalPhase; - I need to do more to read the wrapped Dto
             injuryInfo = $"Injury: {injury.InjuryType}. Prevention: {injury.PreventionStrategy}. " +
                          $"Exercises: {injury.StrengtheningExercises}";
         }
@@ -128,6 +145,9 @@
     private void HideInjury()
     {
         selectedBodyPart = "Hover over a body part";
-        injuryInfo = "Information will appear here";
+        selectedBodyPart = "";
+        injuryType = "";
+        preventionStrategy = "";
+        strengtheningExercises = "";
     }
 }
