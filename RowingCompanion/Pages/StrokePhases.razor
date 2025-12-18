@@ -1,0 +1,88 @@
+@page "/StrokePhases"
+@inject HttpClient Http
+
+<div class="stroke-phase-container">
+    <h2>Rowing Stroke Phases</h2>
+    
+    <div class="phases-display">
+        <div class="circle-container">
+            
+            <!-- the circle and dots -->
+            <div class="stroke-circle">
+                
+                <!-- position dots at 12, 3, 6, 9 -->
+                <div class="phase-dot catch-dot" @onmouseover="() => ShowCatchPhase()" @onmouseout="HidePhase">
+                    <span class="phase-label">Catch</span>
+                </div>
+                <div class="phase-dot drive-dot" @onmouseover="() => ShowDrivePhase()" @onmouseout="HidePhase">
+                    <span class="phase-label">Drive</span>
+                </div>
+                <div class="phase-dot finish-dot" @onmouseover="() => ShowFinishPhase()" @onmouseout="HidePhase">
+                    <span class="phase-label">Finish</span>
+                </div>
+                <div class="phase-dot recovery-dot" @onmouseover="() => ShowRecoveryPhase()" @onmouseout="HidePhase">
+                    <span class="phase-label">Recovery</span>
+                </div>
+                
+                <!-- arrow indicating cycle direction -->
+                <div class="cycle-arrow">↻</div>
+            </div>
+        </div>
+
+        <div class="phase-info @(string.IsNullOrEmpty(selectedPhase) ? "" : "active")">
+            @if (!string.IsNullOrEmpty(selectedPhase))
+            {
+                <h3>@selectedPhase</h3>
+                <img src="@phaseImage" alt="@selectedPhase phase" class="phase-image"/>
+                <p>@phaseDescription</p>
+            }
+            else
+            {
+                <p class="placeholder">Hover over a phase to learn more</p>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string selectedPhase = "";
+    private string phaseImage = "";
+    private string phaseDescription = "";
+
+    private void ShowCatchPhase() => ShowPhase("Catch");
+    private void ShowDrivePhase() => ShowPhase("Drive");
+    private void ShowFinishPhase() => ShowPhase("Finish");
+    private void ShowRecoveryPhase() => ShowPhase("Recovery");
+
+    private void ShowPhase(string phase)
+    {
+        selectedPhase = phase;
+
+        switch (phase)
+        {
+            case "Catch":
+                phaseImage = "";
+                phaseDescription = "Blade enters water";
+                break;
+            case "Drive":
+                phaseImage = "";
+                phaseDescription = "Push with legs";
+                break;
+            case "Finish":
+                phaseImage = "";
+                phaseDescription = "Blade leaves water";
+                break;
+            case "Recovery":
+                phaseImage = "";
+                phaseDescription = "Move up slide";
+                break;
+        }
+    }
+
+    private void HidePhase()
+    {
+        selectedPhase = "";
+        phaseImage = "";
+        phaseDescription = "";
+    }
+}
