@@ -34,25 +34,60 @@
 }
 
 .phase-info {
-    background: none !important;
+    background: transparent;
     border: none !important;
     box-shadow: none !important;
     padding: 1rem;
-    min-height: 400px;
+    width: 100%;
+    max-width: 600px;
+    min-height: auto;
+    
 }
 
 /* Only add styling when content is present */
 .phase-info.active {
     background: white !important;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 2px solid #e74c3c;
+    overflow: hidden;
+    padding: 0;
+}
+
+.phase-info.active h3 {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    padding: 1rem 1.5rem;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.phase-content {
+    padding: 1.5rem;
+}
+
+.phase-image {
+    width: 100%;
+    max-width: 350px;
+    display: block;
+    margin: 0 auto 1rem auto;
+    border-radius: 4px;
+}
+
+.phase-info.active p {
+    font-size: 1rem;
+    color: #636e72;
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
 }
 
 .placeholder {
     text-align: center;
     color: #636e72;
     font-style: italic;
-    margin-top: 2rem;
+    padding: 2rem;
 }
 
 .catch-dot .phase-label { top: -25px; left: 50%; transform: translateX(-50%); }
@@ -69,4 +104,17 @@
     color: #636e72;
     opacity: 0.3;
     pointer-events: none; /* So it doesn't block clicks */
+}
+
+.stroke-phase-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.phases-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
 }

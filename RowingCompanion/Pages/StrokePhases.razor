@@ -34,8 +34,10 @@
             @if (!string.IsNullOrEmpty(selectedPhase))
             {
                 <h3>@selectedPhase</h3>
-                <img src="@phaseImage" alt="@selectedPhase phase" class="phase-image"/>
-                <p>@phaseDescription</p>
+                <div class="phase-content">
+                    <img src="@phaseImage" alt="@selectedPhase phase" class="phase-image"/>
+                    <p>@phaseDescription</p>
+                </div>
             }
             else
             {
@@ -44,6 +46,7 @@
         </div>
     </div>
 </div>
+
 
 @code {
     private string selectedPhase = "";
