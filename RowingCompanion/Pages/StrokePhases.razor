@@ -1,4 +1,5 @@
 @page "/StrokePhases"
+@using Rowing.Application.StrokePhase
 @inject HttpClient Http
 
 <div class="stroke-phase-container">
@@ -48,6 +49,26 @@
     private string selectedPhase = "";
     private string phaseImage = "";
     private string phaseDescription = "";
+    
+    private List<StrokePhaseDto> strokePhase = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStrokePhaseData();
+    }
+
+    private async Task LoadStrokePhaseData()
+    {
+        try
+        {
+            strokePhase = await Http.GetFromJsonAsync<List<StrokePhaseDto>>("api/StrokePhases");
+            Console.WriteLine($"Loaded {strokePhase.Count} stroke phases");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading stroke phases: {ex.Message}");
+        }
+    }
 
     private void ShowCatchPhase() => ShowPhase("Catch");
     private void ShowDrivePhase() => ShowPhase("Drive");
@@ -56,29 +77,24 @@
 
     private void ShowPhase(string phase)
     {
-        selectedPhase = phase;
+        var phaseName = strokePhase.FirstOrDefault(i => i.Name == phase);
 
-        switch (phase)
+        if (phaseName != null)
         {
-            case "Catch":
-                phaseImage = "";
-                phaseDescription = "Blade enters water";
-                break;
-            case "Drive":
-                phaseImage = "";
-                phaseDescription = "Push with legs";
-                break;
-            case "Finish":
-                phaseImage = "";
-                phaseDescription = "Blade leaves water";
-                break;
-            case "Recovery":
-                phaseImage = "";
-                phaseDescription = "Move up slide";
-                break;
+            selectedPhase = phaseName.Name;
+            phaseDescription = phaseName.KeyFocus;
+            phaseImage = $"/images/{phase.ToLower()}.jpg/";
         }
-    }
+        else
+        {
+            selectedPhase = phase;
+            phaseDescription = "No data is available for this stroke phase";
+            phaseImage = "";
+        }
 
+    }
+    
+    
     private void HidePhase()
     {
         selectedPhase = "";
