@@ -34,14 +34,12 @@
 }
 
 .phase-info {
-    background: transparent;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 1rem;
     width: 100%;
     max-width: 600px;
-    min-height: auto;
-    
+    background: transparent !important;  /* Force no background */
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0;
 }
 
 /* Only add styling when content is present */
@@ -67,6 +65,16 @@
     padding: 1.5rem;
 }
 
+.phase-content h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
 .phase-image {
     width: 100%;
     max-width: 350px;
@@ -88,6 +96,24 @@
     color: #636e72;
     font-style: italic;
     padding: 2rem;
+}
+
+.placeholder-container {
+    text-align: center;
+    padding: 2rem;
+    background: transparent;
+}
+
+.placeholder-text {
+    color: #2d3436;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.placeholder-hint {
+    color: #636e72;
+    font-size: 0.9rem;
+    font-style: italic;
 }
 
 .catch-dot .phase-label { top: -25px; left: 50%; transform: translateX(-50%); }

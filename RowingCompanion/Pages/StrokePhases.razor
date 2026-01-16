@@ -36,12 +36,17 @@
                 <h3>@selectedPhase</h3>
                 <div class="phase-content">
                     <img src="@phaseImage" alt="@selectedPhase phase" class="phase-image"/>
+                    <h4>Key Focus</h4>
                     <p>@phaseDescription</p>
                 </div>
             }
+           
             else
             {
-                <p class="placeholder">Hover over a phase to learn more</p>
+                <div class="placeholder-container">
+                    <p class="placeholder-text">Hover over any point on the stroke cycle above to explore each phase</p>
+                    <p class="placeholder-hint">The stroke moves clockwise: Catch → Drive → Finish → Recovery</p>
+                </div>
             }
         </div>
     </div>
