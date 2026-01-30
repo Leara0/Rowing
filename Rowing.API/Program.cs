@@ -6,6 +6,8 @@ using Rowing.Application.DrillTechniqueUseCase.QueryServices;
 using Rowing.Application.InjuryPreventionUseCases;
 using Rowing.Application.Interfaces;
 using Rowing.Application.StrokePhase;
+using Rowing.Application.UseCases.TrainingWorkoutsUseCase.CommandServices;
+using Rowing.Application.UseCases.TrainingWorkoutsUseCase.QueryServices;
 using Rowing.Infrastructure.Connection;
 using Rowing.Infrastructure.Repositories;
 
@@ -42,6 +44,9 @@ builder.Services.AddScoped<ICommonErrorCommandService, CommonErrorCommandService
 builder.Services.AddScoped<ITechniqueDrillRepository, TechniqueDrillRepository>();
 builder.Services.AddScoped<ITechniqueDrillQueryService, TechniqueDrillQueryService>();
 builder.Services.AddScoped<ITechniqueDrillCommandService, TechniqueDrillCommandService>();
+builder.Services.AddScoped<ITrainingWorkoutQueryService, TrainingWorkoutQueryService>();
+builder.Services.AddScoped<ITrainingWorkoutCommandService, TrainingWorkoutCommandService>();
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
