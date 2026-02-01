@@ -13,4 +13,5 @@ public class TrainingWorkoutDbDto
     public bool is_verified { get; set; }
     public DateTime created_at { get; set; }
     public string created_by { get; set; }
+    
 }
