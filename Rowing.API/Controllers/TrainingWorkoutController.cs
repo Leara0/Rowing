@@ -25,9 +25,9 @@ public class TrainingWorkoutController : Controller
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TrainingWorkoutDto>>> GetAll()
     {
-        // make a call to the interface to get all records
-        // interface calls real class. real class calls infrastructure 
-        // infrastructure calls database
-        return View();
+        var results = await _queryService.GetAllTrainingWorkoutAsync();
+        return Ok(results);
     }
+    
+  
 }
