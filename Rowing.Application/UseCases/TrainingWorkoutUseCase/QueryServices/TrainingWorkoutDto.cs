@@ -30,4 +30,6 @@ public class TrainingWorkoutDto
         CreatedAt = model.CreatedAt;
         CreatedBy = model.CreatedBy;
     }
+
+    public TrainingWorkoutDto() { }
 }

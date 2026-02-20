@@ -26,4 +26,14 @@ public class TechniqueDrillQueryService : ITechniqueDrillQueryService
         var domainEntity = await _drillRepo.GetTechniqueDrillByIdAsync(id);
         return domainEntity == null ? null : new TechniqueDrillDto(domainEntity);
     }
+
+    public Task<IEnumerable<TechniqueDrillDto?>> SearchAsync(string searchTerm)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<TechniqueDrillDto?>> SearchAsync(string searchTerm, string searchField)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -1,19 +1,62 @@
+using Microsoft.Extensions.Logging;
+using Rowing.Application.Exceptions;
+using Rowing.Application.Interfaces;
+using Rowing.Application.UseCases.TrainingWorkoutsUseCase.QueryServices;
+using Rowing.Domain.Entities;
+
 namespace Rowing.Application.UseCases.TrainingWorkoutsUseCase.CommandServices;
 
 public class TrainingWorkoutCommandService : ITrainingWorkoutCommandService
 {
-    public Task UpdateTrainingWorkoutAsync(int id, UpdateCreateTrainingWorkoutDto dto)
+    private readonly ITrainingWorkoutRepository _trainingRepo;
+    private readonly ILogger<TrainingWorkoutCommandService> _logger;
+
+    public TrainingWorkoutCommandService(ITrainingWorkoutRepository repo,
+        ILogger<TrainingWorkoutCommandService> logger)
     {
-        throw new NotImplementedException();
+        _trainingRepo = repo;
+        _logger = logger;
     }
 
-    public Task<int> CreateTrainingWorkoutAsync(int id, UpdateCreateTrainingWorkoutDto dto)
+
+    public async Task UpdateTrainingWorkoutAsync(int id, UpdateCreateTrainingWorkoutDto dto)
     {
-        throw new NotImplementedException();
+        var domainEntity = new TrainingWorkout(dto.Name, dto.WorkoutType, dto.DurationMinutes, dto.IntensityLevel,
+            dto.Description, dto.TargetStrokeRate, dto.TrainingGoal);
+        domainEntity.IsVerified = false;
+        domainEntity.WorkoutId = id;
+
+        var rowsAffected = await _trainingRepo.UpdateTrainingWorkoutAsync(domainEntity);
+
+        if (rowsAffected != 1)
+        {
+            _logger.LogError("Invalid training workout id {id}. No records were updated", id);
+            throw new NotFoundException($"Training workout record with id {id} not found");
+
+        }
     }
 
-    public Task DeleteTrainingWorkoutAsync(int id)
+    
+    public async Task<int> CreateTrainingWorkoutAsync(UpdateCreateTrainingWorkoutDto dto)
     {
-        throw new NotImplementedException();
+        var domainEntity = new TrainingWorkout(dto.Name, dto.WorkoutType, dto.DurationMinutes, dto.IntensityLevel,
+            dto.Description, dto.TargetStrokeRate, dto.TrainingGoal);
+        domainEntity.IsVerified = false;
+        domainEntity.CreatedAt = DateTime.UtcNow;
+        domainEntity.CreatedBy = "user";
+
+        return await _trainingRepo.CreateTrainingWorkoutAsync(domainEntity);
+
+    }
+
+    public async Task DeleteTrainingWorkoutAsync(int id)
+    {
+        var rowsAffected = await _trainingRepo.DeleteTrainingWorkoutAsync(id);
+
+        if (rowsAffected != 1)
+        {
+            _logger.LogError("Invalid training workout id {id}. No records were deleted.", id);
+            throw new NotFoundException($"Training workout record with id {id} not found");
+        }
     }
 }

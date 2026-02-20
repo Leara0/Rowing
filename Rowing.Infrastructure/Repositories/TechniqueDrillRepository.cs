@@ -18,21 +18,21 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
     public async Task<IEnumerable<TechniqueDrill>> GetAllTechniqueDrillAsync()
     {
         using var conn = _connectionFactory.CreateConnection();
-        var TechniqueDrillDbModels = await conn.QueryAsync<TechniqueDrillDbDto>
+        var techniqueDrillDbModels = await conn.QueryAsync<TechniqueDrillDbDto>
             ("SELECT * FROM technique_drills");
-        return TechniqueDrillDbModels.Select(MapToDomain);
+        return techniqueDrillDbModels.Select(MapToDomain);
     }
 
     public async Task<TechniqueDrill?> GetTechniqueDrillByIdAsync(int id)
     {
         using var conn = _connectionFactory.CreateConnection();
-        var TechniqueDrillDbModel = await conn.QuerySingleOrDefaultAsync<TechniqueDrillDbDto>
+        var techniqueDrillDbModel = await conn.QuerySingleOrDefaultAsync<TechniqueDrillDbDto>
             ("SELECT * FROM technique_drills WHERE drill_id = @id", new { id });
 
-        if (TechniqueDrillDbModel == null)
+        if (techniqueDrillDbModel == null)
             return null;
         
-        return MapToDomain(TechniqueDrillDbModel);
+        return MapToDomain(techniqueDrillDbModel);
     }
 
     public async Task<int> UpdateTechniqueDrillAsync(TechniqueDrill model)

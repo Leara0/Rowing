@@ -22,8 +22,9 @@ public class TrainingWorkoutQueryService : ITrainingWorkoutQueryService
         return domainEntities.Select(x => new TrainingWorkoutDto(x));
     }
 
-    public Task<TrainingWorkoutDto?> GetTrainingWorkoutByIdAsync(int id)
+    public async Task<TrainingWorkoutDto?> GetTrainingWorkoutByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var domainEntity = await _trainingRepo.GetTrainingWorkoutByIdAsync(id);
+        return domainEntity == null ? null : new TrainingWorkoutDto(domainEntity);
     }
 }

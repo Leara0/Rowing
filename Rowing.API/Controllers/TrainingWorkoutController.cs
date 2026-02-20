@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Rowing.Application.Exceptions;
 using Rowing.Application.UseCases.TrainingWorkoutsUseCase.CommandServices;
 using Rowing.Application.UseCases.TrainingWorkoutsUseCase.QueryServices;
 
@@ -28,6 +29,62 @@ public class TrainingWorkoutController : Controller
         var results = await _queryService.GetAllTrainingWorkoutAsync();
         return Ok(results);
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TrainingWorkoutDto>> GetById(int id)
+    {
+        var result = await _queryService.GetTrainingWorkoutByIdAsync(id);
+        return result == null ? NotFound() : Ok(result);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Update(int id, UpdateCreateTrainingWorkoutDto dto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            _commandService.UpdateTrainingWorkoutAsync(id, dto);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Create(UpdateCreateTrainingWorkoutDto dto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            var newId = await _commandService.CreateTrainingWorkoutAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = newId }, newId);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        try
+        {
+            await _commandService.DeleteTrainingWorkoutAsync(id);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
     
-  
 }

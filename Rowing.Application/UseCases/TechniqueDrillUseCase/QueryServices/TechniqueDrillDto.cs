@@ -29,4 +29,6 @@ public class TechniqueDrillDto
         CreatedBy = model.CreatedBy;
     }
 
+    public TechniqueDrillDto() { }
+
 }

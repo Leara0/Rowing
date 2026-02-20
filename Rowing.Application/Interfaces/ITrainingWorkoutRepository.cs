@@ -11,4 +11,7 @@ public interface ITrainingWorkoutRepository
     public Task<int> CreateTrainingWorkoutAsync(TrainingWorkout model);
     public Task<int> DeleteTrainingWorkoutAsync(int id);
 
+    public Task<IEnumerable<TrainingWorkout?>> SearchAsync(string searchTerm);
+    public Task<IEnumerable<TrainingWorkout?>> SearchAsync(string searchTerm, string fieldName);
+
 }

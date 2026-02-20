@@ -1,0 +1,162 @@
+@page "/traininglibrary"
+@using System.Net
+@using System.Text.Json
+@using Rowing.Application.DrillTechniqueUseCase.QueryServices
+@using Rowing.Application.UseCases.TrainingWorkoutsUseCase.QueryServices
+@inject HttpClient Http
+
+
+
+<PageTitle>Training Library - CatchPoint</PageTitle>
+
+<!-- Training Exercise section -->
+<h2 class="type-heading">Exercises</h2>
+<div class="exercises-grid">
+    @foreach (var exercise in exercises)
+    {
+        <div class="exercise-card" @onclick="() => ShowExerciseDetails(exercise)">
+            <h4>
+                @exercise.Name
+            </h4>
+            <p>
+                @exercise.DurationMinutes min •
+                @exercise.IntensityLevel
+            </p>
+            <p>
+                @TruncateText(exercise.TrainingGoal, 50)
+            </p>
+        </div>
+    }
+</div>
+
+<!-- Exercise Modal Card -->
+@if (selectedExercise != null)
+{
+    <div class="modal-overlay" @onclick="CloseModal">
+        <div class="exercise-modal" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h3>@selectedExercise.Name</h3>
+                <button @onclick="CloseModal">×</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Duration:</strong> @selectedExercise.DurationMinutes minutes</p>
+                <p><strong>Workout Type:</strong> @selectedExercise.WorkoutType</p>
+                <p><strong>Intensity:</strong> @selectedExercise.IntensityLevel</p>
+                <p><strong>Stroke Rate:</strong> @selectedExercise.TargetStrokeRate</p>
+                <p><strong>Description:</strong> @selectedExercise.Description</p>
+                <p><strong>Training Goal:</strong> @selectedExercise.TrainingGoal</p>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Technique Drills section -->
+<h2 class="type-heading">Drills</h2>
+<div class="drills-grid">
+    @foreach (var drill in drills)
+    {
+        <div class="drill-card" @onclick="() => ShowDrillDetails(drill)">
+            <h4>
+                @drill.Name
+            </h4>
+            <p>
+                Focus: @drill.FocusArea
+            </p>
+            <p>
+                @TruncateText(drill.Description, 50)
+            </p>
+        </div>
+    }
+</div>
+
+<!-- Drill Modal Card -->
+@if (selectedDrill != null)
+{
+    <div class="modal-overlay" @onclick="CloseModal">
+        <div class="drill-modal" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h3>@selectedDrill.Name</h3>
+                <button @onclick="CloseModal">×</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Focus Area:</strong> @selectedDrill.FocusArea</p>
+                <p><strong>Description:</strong> @selectedDrill.Description</p>
+                <p><strong>Execution Steps:</strong> @selectedDrill.ExecutionSteps</p>
+                <p><strong>Coaching Points:</strong> @selectedDrill.CoachingPoints</p>
+                <p><strong>Progression:</strong> @selectedDrill.Progression</p>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    
+    private List<TechniqueDrillDto> drills = new();
+
+    private List<TrainingWorkoutDto> exercises = new();
+    private TechniqueDrillDto selectedDrill = null;
+    private TrainingWorkoutDto selectedExercise = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTechniqueDrillData();
+        await LoadTrainingWorkoutData();
+    }
+    
+    private async Task LoadTechniqueDrillData()
+    {
+        try
+        {
+            drills = await Http.GetFromJsonAsync<List<TechniqueDrillDto>>("api/TechniqueDrill");
+            Console.WriteLine($"Loaded {drills.Count} technique drills");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading technique drills: {ex.Message}");
+        }
+    }
+
+    private async Task LoadTrainingWorkoutData()
+    {
+        try
+        {
+            exercises = await Http.GetFromJsonAsync<List<TrainingWorkoutDto>>("api/TrainingWorkout");
+            Console.WriteLine($"Loaded {exercises.Count} exercises");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading exercises: {ex.Message}");
+        }
+    }
+
+    private void ShowExerciseDetails(TrainingWorkoutDto exercise)
+    {
+        selectedExercise = exercise;
+    }
+
+    private void ShowDrillDetails(TechniqueDrillDto drill)
+    {
+        selectedDrill = drill;
+    }
+
+    private void CloseModal()
+    {
+        selectedExercise = null;
+        selectedDrill = null;
+    }
+
+    private string TruncateText(string description, int length)
+    {
+        if (string.IsNullOrEmpty(description))
+            return "No description information could be found.";
+        if (description.Length <= length)
+            return description;
+        else
+            return description.Substring(0, length) + "...";
+    }
+   
+}
+
+
+
+
