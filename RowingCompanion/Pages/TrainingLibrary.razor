@@ -18,7 +18,7 @@
         <option value="Description">Description Only</option>
     </select>
     
-    <input type="text" placeholder="Search exercises and drills..." @bind="searchTerm" />
+    <input type="text" placeholder="Search exercises and drills..." value="@searchTerm" @oninput="OnSearchInput" />
     
     <button @onclick="SearchNow">Search</button>
     <button @onclick="ClearSearch">Clear Search</button>
@@ -123,6 +123,9 @@
     private List<TechniqueDrillDto> searchedDrills = new();
     private List<TrainingWorkoutDto> searchedExercises = new();
     
+    // timer for debouncing auto searching
+    private System.Threading.Timer? _searchTimer;
+    
     // holds selected item for modal overlay
     private TechniqueDrillDto selectedDrill = null;
     private TrainingWorkoutDto selectedExercise = null;
@@ -159,6 +162,15 @@
         }
     }
 
+    private string TruncateText(string description, int length)
+    {
+        if (string.IsNullOrEmpty(description))
+            return "No description information could be found.";
+        if (description.Length <= length)
+            return description;
+        else
+            return description.Substring(0, length) + "...";
+    }
     private async Task SearchNow()
     {
         isSearching = true;
@@ -210,16 +222,19 @@
         selectedDrill = null;
     }
 
-    private string TruncateText(string description, int length)
+    private void OnSearchInput(ChangeEventArgs e)
     {
-        if (string.IsNullOrEmpty(description))
-            return "No description information could be found.";
-        if (description.Length <= length)
-            return description;
-        else
-            return description.Substring(0, length) + "...";
+        searchTerm = e.Value?.ToString() ?? "";
+        
+        //cancel any existing timer
+        _searchTimer?.Dispose();
+        
+        // start new timer that fires 300ms after typing stops
+        _searchTimer = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(SearchNow);
+        }, null, 300, Timeout.Infinite);
     }
-   
 }
 
 
