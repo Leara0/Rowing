@@ -9,4 +9,6 @@ public interface ITechniqueDrillRepository
     public Task<int> UpdateTechniqueDrillAsync(TechniqueDrill model);
     public Task<int> CreateTechniqueDrillAsync(TechniqueDrill model);
     public Task<int> DeleteTechniqueDrillAsync(int id);
+    public Task<IEnumerable<TechniqueDrill>> SearchAsync(string searchTerm);
+    public Task<IEnumerable<TechniqueDrill>> SearchAsync(string searchTerm, string field);
 }

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Rowing.Application.Interfaces;
+using Rowing.Domain.Entities;
 
 
 namespace Rowing.Application.UseCases.TrainingWorkoutsUseCase.QueryServices;
@@ -26,5 +27,18 @@ public class TrainingWorkoutQueryService : ITrainingWorkoutQueryService
     {
         var domainEntity = await _trainingRepo.GetTrainingWorkoutByIdAsync(id);
         return domainEntity == null ? null : new TrainingWorkoutDto(domainEntity);
+    }
+
+    public async Task<IEnumerable<TrainingWorkoutDto>> SearchTrainingWorkoutAsync(string searchTerm, string field)
+    {
+        IEnumerable<TrainingWorkout> domainEntities;
+
+        if (field == "All")
+            domainEntities = await _trainingRepo.SearchAsync(searchTerm);
+        else
+            domainEntities = await _trainingRepo.SearchAsync(searchTerm, field);
+
+        return domainEntities.Select(x => new TrainingWorkoutDto(x));
+
     }
 }

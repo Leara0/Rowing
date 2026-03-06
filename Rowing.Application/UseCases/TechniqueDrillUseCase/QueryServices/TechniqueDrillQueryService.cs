@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Rowing.Application.Exceptions;
 using Rowing.Application.Interfaces;
+using Rowing.Domain.Entities;
 
 namespace Rowing.Application.DrillTechniqueUseCase.QueryServices;
 
@@ -27,13 +28,17 @@ public class TechniqueDrillQueryService : ITechniqueDrillQueryService
         return domainEntity == null ? null : new TechniqueDrillDto(domainEntity);
     }
 
-    public Task<IEnumerable<TechniqueDrillDto?>> SearchAsync(string searchTerm)
+    public async Task<IEnumerable<TechniqueDrillDto>> SearchTechniqueDrillAsync(string searchTerm, string searchField)
     {
-        throw new NotImplementedException();
-    }
+        IEnumerable<TechniqueDrill> domainEntities;
+        //check if searchField is all and if so call general search
+        // otherwise call field search
+        // map to dto and return
+        if (searchField == "All")
+            domainEntities = await _drillRepo.SearchAsync(searchTerm);
+        else
+            domainEntities = await _drillRepo.SearchAsync(searchTerm, searchField);
 
-    public Task<IEnumerable<TechniqueDrillDto?>> SearchAsync(string searchTerm, string searchField)
-    {
-        throw new NotImplementedException();
+        return domainEntities.Select(x => new TechniqueDrillDto(x));
     }
 }

@@ -90,7 +90,7 @@ public class TrainingWorkoutRepository : ITrainingWorkoutRepository
         return rowsAffected;
     }
 
-    public async Task<IEnumerable<TrainingWorkout?>> SearchAsync(string searchTerm)
+    public async Task<IEnumerable<TrainingWorkout>> SearchAsync(string searchTerm)
     {
         var numericSearch = searchTerm;
         searchTerm = "%" + searchTerm.ToLower() + "%";
@@ -104,24 +104,26 @@ public class TrainingWorkoutRepository : ITrainingWorkoutRepository
                                     LOWER(target_stroke_rate) LIKE @searchTerm OR
                                     LOWER(training_goal) LIKE @searchTerm";
         var trainingWorkoutDbModels = await conn.QueryAsync<TrainingWorkoutDbDto>
-            (sql, new {searchTerm});
+            (sql, new {searchTerm, numericSearch});
+        
         return trainingWorkoutDbModels.Select(MapToDomain);
     }
 
-    public async Task<IEnumerable<TrainingWorkout?>> SearchAsync(string searchTerm, string fieldName)
+    public async Task<IEnumerable<TrainingWorkout>> SearchAsync(string searchTerm, string fieldName)
     {
         searchTerm = "%" + searchTerm.ToLower() + "%";
         using var conn = _connectionFactory.CreateConnection();
 
-        string sql = fieldName.ToLower() switch
+        // switch statement because field is from a drop box where user will choose name or description to search
+        string sql = fieldName switch
         {
-            "name" => "SELECT * FROM training_workouts WHERE LOWER(name) LIKE @searchTerm",
-            "description" => "SELECT * FROM training_workouts WHERE LOWER(description) LIKE @searchTerm"
+            "Name" => "SELECT * FROM training_workouts WHERE LOWER(name) LIKE @searchTerm",
+            "Description" => "SELECT * FROM training_workouts WHERE LOWER(description) LIKE @searchTerm"
         };
             
-
         var trainingWorkoutDbModels = await conn.QueryAsync<TrainingWorkoutDbDto>
             (sql, new { searchTerm });
+
         return trainingWorkoutDbModels.Select(MapToDomain);
     }
 

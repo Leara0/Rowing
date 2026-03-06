@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rowing.Application.Exceptions;
 using Rowing.Application.UseCases.TrainingWorkoutsUseCase.CommandServices;
 using Rowing.Application.UseCases.TrainingWorkoutsUseCase.QueryServices;
+using Rowing.Domain.Enums;
 
 namespace Rowing.API.Controllers;
 [ApiController]
@@ -35,6 +36,17 @@ public class TrainingWorkoutController : Controller
     {
         var result = await _queryService.GetTrainingWorkoutByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<TrainingWorkoutDto>>> Search(string term, SearchFields.SearchField field)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+            return BadRequest("Search term cannot be empty");
+        var result = 
+            await _queryService.SearchTrainingWorkoutAsync(term, field.ToString());
+        if (!result.Any()) return NotFound("No training workouts found matching your search");
+        return Ok(result);
     }
 
     [HttpPut("{id}")]

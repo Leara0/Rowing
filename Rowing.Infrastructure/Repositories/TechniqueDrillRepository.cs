@@ -87,6 +87,42 @@ public class TechniqueDrillRepository : ITechniqueDrillRepository
         return rowsAffected;
     }
 
+    public async Task<IEnumerable<TechniqueDrill>> SearchAsync(string searchTerm)
+    {
+        searchTerm = "%" + searchTerm.ToLower() + "%";
+
+        using var conn = _connectionFactory.CreateConnection();
+
+        var sql = @"SELECT * FROM technique_drills WHERE
+                                   LOWER(name) LIKE @searchTerm OR
+                                   LOWER(focus_area) LIKE @searchTerm OR
+                                   LOWER(description) LIKE @searchTerm OR
+                                   LOWER(execution_steps) LIKE @searchTerm OR
+                                   LOWER(coaching_points) LIKE @searchTerm OR
+                                   LOWER(progression) LIKE @searchTerm";
+
+        var techniqueDrillDbModels = await conn.QueryAsync<TechniqueDrillDbDto>
+            (sql, new { searchTerm });
+        return techniqueDrillDbModels.Select(MapToDomain);
+    }
+    
+    public async Task<IEnumerable<TechniqueDrill>> SearchAsync(string searchTerm, string field)
+    {
+        searchTerm = "%" + searchTerm.ToLower() + "%";
+
+        using var conn = _connectionFactory.CreateConnection();
+
+        var sql = field switch
+        {
+            "Name" => "SELECT * FROM technique_drills WHERE LOWER(name) LIKE @searchTerm",
+            "Description" => "SELECT * FROM technique_drills WHERE LOWER(description) LIKE @searchTerm"
+        };
+
+        var techniqueDrillsDbModels = await conn.QueryAsync<TechniqueDrillDbDto>
+            (sql, new { searchTerm });
+        return techniqueDrillsDbModels.Select(MapToDomain);
+    }
+
     public TechniqueDrill MapToDomain(TechniqueDrillDbDto model)
     {
         return new TechniqueDrill(model.name, model.focus_area, model.description, model.execution_steps,
