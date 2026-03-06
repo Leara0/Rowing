@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rowing.Application.DrillTechniqueUseCase.CommandServices;
 using Rowing.Application.DrillTechniqueUseCase.QueryServices;
 using Rowing.Application.Exceptions;
+using Rowing.Domain.Enums;
 
 namespace Rowing.API.Controllers;
 
@@ -33,6 +34,19 @@ public class TechniqueDrillController : Controller
     {
         var result = await _queryService.GetTechniqueDrillByIdAsync(id);
         return result == null ? NotFound() : Ok(result);
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<TechniqueDrillDto>>> Search(string term, SearchField field)
+    {
+        if (String.IsNullOrWhiteSpace(term))
+            return BadRequest("Search term cannot be empty");
+        
+        var result = await _queryService.SearchTechniqueDrillAsync(term, field.ToString());
+        
+        if (!result.Any())
+            return NotFound("No technique drills found matching your search");
+        return Ok(result);
     }
 
     [HttpPut("{id}")]

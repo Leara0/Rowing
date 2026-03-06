@@ -3,16 +3,32 @@
 @using System.Text.Json
 @using Rowing.Application.DrillTechniqueUseCase.QueryServices
 @using Rowing.Application.UseCases.TrainingWorkoutsUseCase.QueryServices
+@using Rowing.Domain.Enums
 @inject HttpClient Http
 
 
 
 <PageTitle>Training Library - CatchPoint</PageTitle>
 
+<!-- Search Bar section -->
+<div class="search-container">
+    <select @bind="selectedField">
+        <option value="All">All Fields</option>
+        <option value="Name">Name Only</option>
+        <option value="Description">Description Only</option>
+    </select>
+    
+    <input type="text" placeholder="Search exercises and drills..." @bind="searchTerm" />
+    
+    <button @onclick="SearchNow">Search</button>
+    <button @onclick="ClearSearch">Clear Search</button>
+
+</div>
+
 <!-- Training Exercise section -->
 <h2 class="type-heading">Exercises</h2>
 <div class="exercises-grid">
-    @foreach (var exercise in exercises)
+    @foreach (var exercise in hasActiveSearch ? searchedExercises : exercises)
     {
         <div class="exercise-card" @onclick="() => ShowExerciseDetails(exercise)">
             <h4>
@@ -53,7 +69,7 @@
 <!-- Technique Drills section -->
 <h2 class="type-heading">Drills</h2>
 <div class="drills-grid">
-    @foreach (var drill in drills)
+    @foreach (var drill in hasActiveSearch? searchedDrills : drills)
     {
         <div class="drill-card" @onclick="() => ShowDrillDetails(drill)">
             <h4>
@@ -91,9 +107,23 @@
 
 @code {
     
+    // search state variables
+    private string searchTerm = "";
+    private SearchField selectedField = SearchField.All;
+    private bool isSearching = false;
+    
+    // to know when to show search results vs full lists
+    private bool hasActiveSearch = false;
+    
+    // lists for showing all
     private List<TechniqueDrillDto> drills = new();
-
     private List<TrainingWorkoutDto> exercises = new();
+    
+    // lists for search results
+    private List<TechniqueDrillDto> searchedDrills = new();
+    private List<TrainingWorkoutDto> searchedExercises = new();
+    
+    // holds selected item for modal overlay
     private TechniqueDrillDto selectedDrill = null;
     private TrainingWorkoutDto selectedExercise = null;
 
@@ -129,6 +159,41 @@
         }
     }
 
+    private async Task SearchNow()
+    {
+        isSearching = true;
+        hasActiveSearch = true;
+        try
+        {
+            searchedDrills = await Http.GetFromJsonAsync<List<TechniqueDrillDto>>
+                ($"api/TechniqueDrill/search?term={searchTerm}&field={selectedField}");
+            Console.WriteLine($"Loaded {searchedDrills.Count} technique drills");
+
+            searchedExercises = await Http.GetFromJsonAsync<List<TrainingWorkoutDto>>
+                ($"api/TrainingWorkout/search?term={searchTerm}&field={selectedField}");
+            Console.WriteLine($"Loaded {searchedExercises.Count} exercises");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Search error {ex.Message}");
+        }
+        finally
+        {
+            isSearching = false;
+        }
+    }
+
+    private void ClearSearch()
+    {
+        searchTerm = "";
+        selectedField = SearchField.All;
+        isSearching = false;
+        hasActiveSearch = false;
+        searchedDrills = new();
+        searchedExercises = new();
+    }
+    
+    // card modal functionality
     private void ShowExerciseDetails(TrainingWorkoutDto exercise)
     {
         selectedExercise = exercise;

@@ -39,7 +39,7 @@ public class TrainingWorkoutController : Controller
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<TrainingWorkoutDto>>> Search(string term, SearchFields.SearchField field)
+    public async Task<ActionResult<IEnumerable<TrainingWorkoutDto>>> Search(string term, SearchField field)
     {
         if (string.IsNullOrWhiteSpace(term))
             return BadRequest("Search term cannot be empty");
