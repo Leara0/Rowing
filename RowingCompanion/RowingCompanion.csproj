@@ -27,4 +27,8 @@
       <ProjectReference Include="..\Rowing.Application\Rowing.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\sample-data\" />
+    </ItemGroup>
+
 </Project>
