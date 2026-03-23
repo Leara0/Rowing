@@ -27,6 +27,12 @@
 
 <!-- Training Exercise section -->
 <h2 class="type-heading">Exercises</h2>
+@if (hasActiveSearch && !searchedExercises.Any())
+{
+    <p>
+        No results found for @searchTerm
+    </p>
+}    
 <div class="exercises-grid">
     @foreach (var exercise in hasActiveSearch ? searchedExercises : exercises)
     {
@@ -68,6 +74,13 @@
 
 <!-- Technique Drills section -->
 <h2 class="type-heading">Drills</h2>
+@if (hasActiveSearch && !searchedDrills.Any())
+ {
+     <p>
+         No results found for @searchTerm
+     </p>
+ }
+
 <div class="drills-grid">
     @foreach (var drill in hasActiveSearch? searchedDrills : drills)
     {
@@ -110,7 +123,6 @@
     // search state variables
     private string searchTerm = "";
     private SearchField selectedField = SearchField.All;
-    private bool isSearching = false;
     
     // to know when to show search results vs full lists
     private bool hasActiveSearch = false;
@@ -173,8 +185,12 @@
     }
     private async Task SearchNow()
     {
-        isSearching = true;
         hasActiveSearch = true;
+        
+        // clear previous results
+        searchedDrills = new();
+        searchedExercises = new();
+
         try
         {
             searchedDrills = await Http.GetFromJsonAsync<List<TechniqueDrillDto>>
@@ -189,17 +205,12 @@
         {
             Console.WriteLine($"Search error {ex.Message}");
         }
-        finally
-        {
-            isSearching = false;
-        }
     }
 
     private void ClearSearch()
     {
         searchTerm = "";
         selectedField = SearchField.All;
-        isSearching = false;
         hasActiveSearch = false;
         searchedDrills = new();
         searchedExercises = new();
