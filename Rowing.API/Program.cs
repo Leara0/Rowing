@@ -13,6 +13,17 @@ using Rowing.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("https://gentle-river-049749c1e.1.azurestaticapps.net")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
